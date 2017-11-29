@@ -1,0 +1,18 @@
+attrdict
+configparser
+# cplex
+cvxopt
+cvxpy
+# gurobipy
+mock
+# mosek
+optlang
+quadprog
+Sphinx >= 1.6
+sphinx_rtd_theme
+robpol86-sphinxcontrib-googleanalytics
+sphinxcontrib-bibtex
+sphinxcontrib-spelling
+swiglpk
+sympy
+# xpresss

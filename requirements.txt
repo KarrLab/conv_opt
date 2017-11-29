@@ -1,0 +1,13 @@
+attrdict
+# cplex
+cvxopt
+cvxpy
+# gurobipy
+mock
+# mosek
+optlang
+quadprog
+scipy
+swiglpk
+sympy
+# xpress
