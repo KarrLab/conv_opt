@@ -3,6 +3,7 @@ configparser
 # cplex
 cvxopt
 cvxpy
+cython
 # gurobipy
 mock
 # mosek
