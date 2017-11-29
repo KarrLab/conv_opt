@@ -8,7 +8,7 @@ cython
 mock
 # mosek
 optlang
-quadprog
+# quadprog # doesn't compile on Read the Docs because Read the Docs is missing Cython
 Sphinx >= 1.6
 sphinx_rtd_theme
 robpol86-sphinxcontrib-googleanalytics

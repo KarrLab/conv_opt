@@ -50,7 +50,7 @@ setup(
     },
     install_requires=install_requires,
     extras_require={
-        'additional solvers': ['cplex', 'cylp', 'gurobipy', 'mosek', 'xpress'],
+        'solver': ['cplex', 'cylp', 'gurobipy', 'mosek', 'xpress'],
     },
     tests_require=tests_require,
     dependency_links=dependency_links,
