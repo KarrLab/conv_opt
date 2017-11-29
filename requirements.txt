@@ -2,6 +2,7 @@ attrdict
 # cplex
 cvxopt
 cvxpy
+# cylp
 cython
 # gurobipy
 mock

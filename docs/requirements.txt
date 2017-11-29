@@ -3,12 +3,13 @@ configparser
 # cplex
 cvxopt
 cvxpy
+# cylp
 cython
 # gurobipy
 mock
 # mosek
 optlang
-# quadprog # doesn't compile on Read the Docs because Read the Docs is missing Cython
+quadprog
 Sphinx >= 1.6
 sphinx_rtd_theme
 robpol86-sphinxcontrib-googleanalytics

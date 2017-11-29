@@ -1,0 +1,14 @@
+name: conv_opt-docs
+channels:
+  - conda-forge
+  - jjhelmus
+  - defaults
+dependencies:
+  - cvxopt
+  - cylp
+  - cython
+  - numpy
+  - pip
+  - python
+  - sphinx
+  - sympy
