@@ -1,3 +1,6 @@
+# version
+include conv_opt/VERSION
+
 # license
 include LICENSE
 

@@ -1,14 +1,17 @@
-from conv_opt import __version__
 from setuptools import setup, find_packages
 import pip
 import re
+
+# get version
+with open('conv_opt/VERSION', 'r') as file:
+    version = file.read().strip()
 
 # parse dependencies and their links from requirements.txt files
 install_requires = []
 tests_require = []
 dependency_links = []
 
-for line in open('requirements.txt'):
+for line in open('requirements.txt', 'r'):
     pkg_src = line.rstrip()
     match = re.match('^.+#egg=(.*?)$', pkg_src)
     if match:
@@ -18,7 +21,7 @@ for line in open('requirements.txt'):
         pkg_id = pkg_src
     install_requires.append(pkg_id)
 
-for line in open('tests/requirements.txt'):
+for line in open('tests/requirements.txt', 'r'):
     pkg_src = line.rstrip()
     match = re.match('^.+#egg=(.*?)$', pkg_src)
     if match:
@@ -36,7 +39,7 @@ for dependency_link in dependency_links:
 # install package
 setup(
     name="conv_opt",
-    version=__version__,
+    version=version,
     description="conv_opt",
     url="https://github.com/KarrLab/conv_opt",
     download_url='https://github.com/KarrLab/conv_opt',
@@ -46,7 +49,9 @@ setup(
     keywords='',
     packages=find_packages(exclude=['tests', 'tests.*']),
     package_data={
-        'conv_opt': [],
+        'conv_opt': [
+            'VERSION',
+        ],
     },
     install_requires=install_requires,
     extras_require={
