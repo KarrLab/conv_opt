@@ -1,5 +1,5 @@
+from conv_opt import __version__
 from setuptools import setup, find_packages
-import conv_opt
 import pip
 import re
 
@@ -36,7 +36,7 @@ for dependency_link in dependency_links:
 # install package
 setup(
     name="conv_opt",
-    version=conv_opt.__version__,
+    version=__version__,
     description="conv_opt",
     url="https://github.com/KarrLab/conv_opt",
     download_url='https://github.com/KarrLab/conv_opt',
