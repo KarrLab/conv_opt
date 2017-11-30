@@ -1,4 +1,5 @@
 attrdict
+capturer
 # cplex
 cvxopt
 cvxpy
