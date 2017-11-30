@@ -3,6 +3,10 @@ import pip
 import re
 
 # get version
+with open('README.rst', 'r') as file:
+    long_description = file.read()
+
+# get version
 with open('conv_opt/VERSION', 'r') as file:
     version = file.read().strip()
 
@@ -41,6 +45,7 @@ setup(
     name="conv_opt",
     version=version,
     description="conv_opt",
+    long_description=long_description,
     url="https://github.com/KarrLab/conv_opt",
     download_url='https://github.com/KarrLab/conv_opt',
     author="Karr Lab",
