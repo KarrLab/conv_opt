@@ -1,8 +1,8 @@
-<!--[![PyPI package](https://img.shields.io/pypi/v/conv_opt.svg)](https://pypi.python.org/pypi/conv_opt)-->
+[![PyPI package](https://img.shields.io/pypi/v/conv_opt.svg)](https://pypi.python.org/pypi/conv_opt)
 [![Documentation](https://readthedocs.org/projects/conv_opt/badge/?version=latest)](http://conv_opt.readthedocs.org)
 [![Test results](https://circleci.com/gh/KarrLab/conv_opt.svg?style=shield)](https://circleci.com/gh/KarrLab/conv_opt)
 [![Test coverage](https://coveralls.io/repos/github/KarrLab/conv_opt/badge.svg)](https://coveralls.io/github/KarrLab/conv_opt)
-[![Code analysis](https://codeclimate.com/github/KarrLab/conv_opt/badges/gpa.svg)](https://codeclimate.com/github/KarrLab/conv_opt)
+[![Code analysis](https://api.codeclimate.com/v1/badges/f61deab196a9dbf42555/maintainability)](https://codeclimate.com/github/KarrLab/conv_opt)
 [![License](https://img.shields.io/github/license/KarrLab/conv_opt.svg)](LICENSE)
 ![Analytics](https://ga-beacon.appspot.com/UA-86759801-1/conv_opt/README.md?pixel)
 
@@ -23,7 +23,7 @@ multiple open-source and commercials solvers including [Cbc](https://projects.co
    ```
    pip install git+git://github.com/KarrLab/conv_opt#egg=conv_opt
    ```
-2. Optionally, install the Cbc/CyLP, FICO XPRESS, IBM CPLEX, Gurobi, and Mosek solvers. Please see our detailed [instructions](http://intro-to-wc-modeling.readthedocs.io/en/latest/installation.html).
+3. Optionally, install the Cbc/CyLP, FICO XPRESS, IBM CPLEX, Gurobi, and Mosek solvers. Please see our detailed [instructions](http://intro-to-wc-modeling.readthedocs.io/en/latest/installation.html).
 
 ## Documentation
 Please see the [API documentation](http://conv_opt.readthedocs.io).

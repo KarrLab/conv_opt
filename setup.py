@@ -51,7 +51,7 @@ setup(
     author="Karr Lab",
     author_email="karr@mssm.com",
     license="MIT",
-    keywords='',
+    keywords='convex optimization, linear programming, quadratic programming',
     packages=find_packages(exclude=['tests', 'tests.*']),
     package_data={
         'conv_opt': [
