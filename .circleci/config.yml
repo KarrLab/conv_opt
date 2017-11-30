@@ -1,12 +1,9 @@
-
 version: 2
 jobs:
   build:
-    working_directory: /root/project
+    working_directory: /root/project    
     docker:
-
       - image: karrlab/build:0.0.13
-
     steps:
       - checkout
       
@@ -17,9 +14,11 @@ jobs:
             - cache-v1-
       
       - run: pip2 install -e .
+      - run: pip2 install -U -e git+https://github.com/KarrLab/karr_lab_build_utils.git#egg=karr_lab_build_utils
       - run: karr_lab_build_utils2 install-requirements
 
       - run: pip3 install -e .
+      - run: pip3 install -U -e git+https://github.com/KarrLab/karr_lab_build_utils.git#egg=karr_lab_build_utils
       - run: karr_lab_build_utils3 install-requirements
       
       - save_cache:
@@ -31,7 +30,7 @@ jobs:
       - run: |
           set +e
 
-          pip2 install -e .
+          pip2 install -e git+https://github.com/KarrLab/karr_lab_build_utils.git#egg=karr_lab_build_utils
           RESULT=$?
           if [ $RESULT -ne 0 ]; then
             exit $RESULT
@@ -39,7 +38,7 @@ jobs:
           karr_lab_build_utils2 run-tests tests --with-xunit --with-coverage
           RESULT2=$?
 
-          pip3 install -e .
+          pip3 install -e git+https://github.com/KarrLab/karr_lab_build_utils.git#egg=karr_lab_build_utils
           RESULT=$?
           if [ $RESULT -ne 0 ]; then
             exit $RESULT
