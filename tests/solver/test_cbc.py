@@ -9,7 +9,6 @@
 from ..test_core import SolverTestCase
 import capturer
 import conv_opt
-import cylp.cy
 import mock
 import numpy
 import unittest

@@ -100,32 +100,52 @@ ENABLED_SOLVERS = [Solver.cvxopt, Solver.glpk, Solver.quadprog, Solver.scipy]
 # :obj:`list` of :obj:`Solver`: list of enabled solvers
 
 try:
-    import cylp
-    ENABLED_SOLVERS.append(Solver.cbc)
+    import cylp.cy
+    try:
+        cylp.cy.CyClpSimplex()
+        ENABLED_SOLVERS.append(Solver.cbc)
+    except:  # pragma: no cover
+        pass  # pragma: no cover
 except ImportError:  # pragma: no cover
     pass  # pragma: no cover
 
 try:
     import cplex
-    ENABLED_SOLVERS.append(Solver.cplex)
+    try:
+        cplex.Cplex()
+        ENABLED_SOLVERS.append(Solver.cplex)
+    except cplex.exceptions.CplexError:  # pragma: no cover
+        pass  # pragma: no cover
 except ImportError:  # pragma: no cover
     pass  # pragma: no cover
 
 try:
     import gurobipy
-    ENABLED_SOLVERS.append(Solver.gurobi)
+    try:
+        gurobipy.Model()
+        ENABLED_SOLVERS.append(Solver.gurobi)
+    except gurobipy.GurobiError:  # pragma: no cover
+        pass  # pragma: no cover
 except ImportError:  # pragma: no cover
     pass  # pragma: no cover
 
 try:
     import mosek
-    ENABLED_SOLVERS.append(Solver.mosek)
+    try:
+        mosek.Env()
+        ENABLED_SOLVERS.append(Solver.mosek)
+    except mosek.Error:  # pragma: no cover
+        pass  # pragma: no cover
 except ImportError:  # pragma: no cover
     pass  # pragma: no cover
 
 try:
     import xpress
-    ENABLED_SOLVERS.append(Solver.xpress)
+    try:
+        xpress.problem()
+        ENABLED_SOLVERS.append(Solver.xpress)
+    except:  # pragma: no cover
+        pass  # pragma: no cover
 except (ImportError, RuntimeError):  # pragma: no cover
     pass  # pragma: no cover
 
