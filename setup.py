@@ -1,10 +1,14 @@
 from setuptools import setup, find_packages
+import os
 import pip
 import re
 
-# get version
-with open('README.rst', 'r') as file:
-    long_description = file.read()
+# get long description
+if os.path.isfile('README.rst'):
+    with open('README.rst', 'r') as file:
+        long_description = file.read()
+else:
+    long_description = ''
 
 # get version
 with open('conv_opt/VERSION', 'r') as file:
