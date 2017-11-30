@@ -13,3 +13,9 @@ dependencies:
   - sphinx
   - swiglpk
   - sympy
+  - pip:
+    - configparser
+    - sphinx_rtd_theme
+    - robpol86-sphinxcontrib-googleanalytics
+    - sphinxcontrib-bibtex
+    - sphinxcontrib-spelling
