@@ -11,7 +11,11 @@ from ..core import (ModelType, ObjectiveDirection, Presolve,
                     SolveOptions, Solver, StatusCode, VariableType, Verbosity,
                     Constraint, LinearTerm, Model, QuadraticTerm, Term, Variable, Result, ConvOptError,
                     SolverModel)
-import mosek
+try:
+    import mosek
+except ImportError:
+    import warnings
+    warnings.warn('MOSEK is not installed', UserWarning)
 import numpy
 
 

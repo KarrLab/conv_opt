@@ -14,7 +14,11 @@ from ..core import (ModelType, ObjectiveDirection, Presolve,
 import capturer
 import numpy
 import sys
-import xpress
+try:
+    import xpress
+except ImportError:
+    import warnings
+    warnings.warn('FICO XPRESS is not installed', UserWarning)
 
 
 class XpressModel(SolverModel):

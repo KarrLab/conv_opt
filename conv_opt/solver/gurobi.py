@@ -12,7 +12,11 @@ from ..core import (ModelType, ObjectiveDirection, Presolve,
                     Constraint, LinearTerm, Model, QuadraticTerm, Term, Variable, Result, ConvOptError,
                     SolverModel)
 import capturer
-import gurobipy
+try:
+    import gurobipy
+except ImportError:
+    import warnings
+    warnings.warn('Gurobi is not installed', UserWarning)
 import numpy
 
 

@@ -11,8 +11,12 @@ from ..core import (ModelType, ObjectiveDirection, Presolve,
                     SolveOptions, Solver, StatusCode, VariableType, Verbosity,
                     Constraint, LinearTerm, Model, QuadraticTerm, Term, Variable, Result, ConvOptError,
                     SolverModel)
-import cylp.cy
-import cylp.py.modeling
+try:
+    import cylp.cy
+    import cylp.py.modeling
+except ImportError:
+    import warnings
+    warnings.warn('CyLP is not installed', UserWarning)
 import capturer
 import numpy
 

@@ -11,7 +11,11 @@ from ..core import (ModelType, ObjectiveDirection, Presolve,
                     SolveOptions, Solver, StatusCode, VariableType, Verbosity,
                     Constraint, LinearTerm, Model, QuadraticTerm, Term, Variable, Result, ConvOptError,
                     SolverModel)
-import cplex
+try:
+    import cplex
+except ImportError:
+    import warnings
+    warnings.warn('IBM CPLEX is not installed', UserWarning)
 import numpy
 import sys
 
