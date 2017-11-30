@@ -11,7 +11,7 @@ dependencies:
   - pip
   - python
   - sphinx
-  - swiglpk
+  - swig
   - sympy
   - pip:
     - configparser
@@ -19,3 +19,4 @@ dependencies:
     - robpol86-sphinxcontrib-googleanalytics
     - sphinxcontrib-bibtex
     - sphinxcontrib-spelling
+    - swiglpk
