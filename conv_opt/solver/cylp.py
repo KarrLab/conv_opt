@@ -146,7 +146,7 @@ class CylpModel(SolverModel):
         if self._options.verbosity.value >= Verbosity.status.value:
             model.initialSolve(presolve=presolve)
         elif self._options.verbosity.value >= Verbosity.error.value:
-            with capturer.CaptureOutput(merged=False, relay=False) as captured:
+            with capturer.CaptureOutput(merged=False, relay=False, termination_delay=1.) as captured:
                 model.initialSolve(presolve=presolve)
                 stderr = captured.stderr.get_text()
             if stderr:

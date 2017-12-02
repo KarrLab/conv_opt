@@ -154,27 +154,21 @@ class CbcTestCase(SolverTestCase):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.cbc))
 
     def test_verbose(self):
-        model = conv_opt.Model()
-
-        var = conv_opt.Variable(name='var', lower_bound=-3, upper_bound=2.)
-        model.variables.append(var)
-
-        model.objective_direction = conv_opt.ObjectiveDirection.maximize
-        model.objective_terms = [conv_opt.LinearTerm(variable=var, coefficient=1.)]
+        model = self.create_lp()
 
         # status
         options = conv_opt.SolveOptions(solver=conv_opt.Solver.cbc,
                                         verbosity=conv_opt.Verbosity.status)
-        with capturer.CaptureOutput(merged=False, relay=False) as captured:
+        with capturer.CaptureOutput(merged=False, relay=False, termination_delay=1.) as captured:
             model.solve(options=options)
 
-            self.assertRegexpMatches(captured.stdout.get_text(), '^Clp3002W Empty problem ')
+            self.assertRegexpMatches(captured.stdout.get_text(), ' 0  Obj -0 Primal ')
             self.assertEqual(captured.stderr.get_text(), '')
 
         options = conv_opt.SolveOptions(solver=conv_opt.Solver.cbc,
                                         verbosity=conv_opt.Verbosity.error)
         # error
-        with capturer.CaptureOutput(merged=False, relay=False) as captured:
+        with capturer.CaptureOutput(merged=False, relay=False, termination_delay=1.) as captured:
             model.solve(options=options)
 
             self.assertEqual(captured.stdout.get_text(), '')
@@ -183,7 +177,7 @@ class CbcTestCase(SolverTestCase):
         # off
         options = conv_opt.SolveOptions(solver=conv_opt.Solver.cbc,
                                         verbosity=conv_opt.Verbosity.off)
-        with capturer.CaptureOutput(merged=False, relay=False) as captured:
+        with capturer.CaptureOutput(merged=False, relay=False, termination_delay=1.) as captured:
             model.solve(options=options)
 
             self.assertEqual(captured.stdout.get_text(), '')
