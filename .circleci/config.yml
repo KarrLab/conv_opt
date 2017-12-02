@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: /root/project    
+    working_directory: /root/project
     docker:
       - image: karrlab/build:0.0.16
     steps:
@@ -13,9 +13,10 @@ jobs:
             - cache-v3-{{ .Branch }}-
             - cache-v3-
       
-      - run: pip2 install -e .[cplex,gurobi,mosek,xpress,docs,tests]
-      - run: pip3 install -e .[cplex,gurobi,mosek,xpress,docs,tests]
-      - run: pip2 install -U -e git+https://github.com/KarrLab/karr_lab_build_utils.git#egg=karr_lab_build_utils      
+      - run: pip2 install -U -e .[cplex,gurobi,mosek,xpress,docs,tests]
+      - run: pip2 install -U -e git+https://github.com/KarrLab/karr_lab_build_utils.git#egg=karr_lab_build_utils
+
+      - run: pip3 install -U -e .[cplex,gurobi,mosek,xpress,docs,tests]
       - run: pip3 install -U -e git+https://github.com/KarrLab/karr_lab_build_utils.git#egg=karr_lab_build_utils
       
       - save_cache:
