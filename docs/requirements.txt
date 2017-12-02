@@ -7,6 +7,7 @@ cython
 mock
 optlang
 quadprog
+git+https://github.com/davidfischer/requirements-parser.git#egg=requirements-parser
 Sphinx >= 1.6
 sphinx_rtd_theme
 robpol86-sphinxcontrib-googleanalytics
