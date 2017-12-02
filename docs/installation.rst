@@ -36,4 +36,8 @@ Alternatively, the latest version of this package can be installed from GitHub u
 
     .. code-block:: bash
 
-        pip install git+git://github.com/KarrLab/conv_opt.git#egg=conv_opt
+        pip install git+https://github.com/KarrLab/conv_opt.git#egg=conv_opt
+
+Support for the optional solvers can be installed using the following options::
+
+    pip install conv_opt[cbc,cplex,gurobi,mosek,xpress]

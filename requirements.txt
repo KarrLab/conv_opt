@@ -1,16 +1,18 @@
 attrdict
 capturer
-# cplex
 cvxopt
 cvxpy
-# cylp
 cython
-# gurobipy
 mock
-# mosek
 optlang
 quadprog
 scipy
 swiglpk
 sympy
-# xpress
+
+# optional solvers
+cplex[cplex]
+git+https://github.com/jjhelmus/CyLP.git@py3#egg=cylp[cbc]
+gurobipy[gurobi]
+mosek[mosek]
+xpress[xpress]

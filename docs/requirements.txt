@@ -1,14 +1,10 @@
 attrdict
 capturer
 configparser
-# cplex
 cvxopt
 cvxpy
-# cylp
 cython
-# gurobipy
 mock
-# mosek
 optlang
 quadprog
 Sphinx >= 1.6
@@ -18,4 +14,10 @@ sphinxcontrib-bibtex
 sphinxcontrib-spelling
 swiglpk
 sympy
-# xpresss
+
+# optional solvers
+cplex[cplex]
+git+https://github.com/jjhelmus/CyLP.git@py3#egg=cylp[cbc]
+gurobipy[gurobi]
+mosek[mosek]
+xpress[xpress]
