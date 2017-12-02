@@ -14,9 +14,8 @@ jobs:
             - cache-v3-
       
       - run: pip2 install -e .[cplex,gurobi,mosek,xpress,docs,tests]
-      - run: pip2 install -U -e git+https://github.com/KarrLab/karr_lab_build_utils.git#egg=karr_lab_build_utils
-
-      - run: pip2 install -e .[cplex,gurobi,mosek,xpress,docs,tests]
+      - run: pip3 install -e .[cplex,gurobi,mosek,xpress,docs,tests]
+      - run: pip2 install -U -e git+https://github.com/KarrLab/karr_lab_build_utils.git#egg=karr_lab_build_utils      
       - run: pip3 install -U -e git+https://github.com/KarrLab/karr_lab_build_utils.git#egg=karr_lab_build_utils
       
       - save_cache:
@@ -28,23 +27,13 @@ jobs:
       - run: |
           set +e
 
-          pip2 install -e git+https://github.com/KarrLab/karr_lab_build_utils.git#egg=karr_lab_build_utils
-          RESULT=$?
-          if [ $RESULT -ne 0 ]; then
-            exit $RESULT
-          fi
           karr_lab_build_utils2 run-tests tests --with-xunit --with-coverage
           RESULT2=$?
 
-          pip3 install -e git+https://github.com/KarrLab/karr_lab_build_utils.git#egg=karr_lab_build_utils
-          RESULT=$?
-          if [ $RESULT -ne 0 ]; then
-            exit $RESULT
-          fi
           karr_lab_build_utils3 run-tests tests --with-xunit --with-coverage
           RESULT3=$?
 
-          karr_lab_build_utils make-and-archive-reports
+          karr_lab_build_utils3 make-and-archive-reports
 
           if [[ $RESULT2 -eq 0 && $RESULT3 -eq 0 ]]; then
             exit 0
