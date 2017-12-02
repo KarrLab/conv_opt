@@ -65,11 +65,11 @@ parse_requirements('requirements.txt', install_requires, extras_require, depende
 parse_requirements('tests/requirements.txt', tests_require, extras_require, dependency_links)
 parse_requirements('docs/requirements.txt', docs_require, extras_require, dependency_links)
 
-if docs_require:
-    if 'docs' in extras_require:
-        extras_require['docs'] = extras_require['docs'] | docs_require
-    else:
-        extras_require['docs'] = docs_require
+tests_require = tests_require.difference(install_requires)
+docs_require = docs_require.difference(install_requires)
+
+extras_require['tests'] = tests_require
+extras_require['docs'] = docs_require
 
 install_requires = list(install_requires)
 tests_require = list(tests_require)
