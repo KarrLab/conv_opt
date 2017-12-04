@@ -99,15 +99,17 @@ class ExportFormat(enum.Enum):
 ENABLED_SOLVERS = [Solver.cvxopt, Solver.glpk, Solver.quadprog, Solver.scipy]
 # :obj:`list` of :obj:`Solver`: list of enabled solvers
 
-try:
-    import cylp.cy
+
+if not os.getenv('CIRCLECI', False): # because we haven't been able to get CyLP to work inside CircleCI
     try:
-        cylp.cy.CyClpSimplex()
-        ENABLED_SOLVERS.append(Solver.cbc)
-    except:  # pragma: no cover
+        import cylp.cy
+        try:
+            cylp.cy.CyClpSimplex()
+            ENABLED_SOLVERS.append(Solver.cbc)
+        except:  # pragma: no cover
+            pass  # pragma: no cover
+    except ImportError:  # pragma: no cover
         pass  # pragma: no cover
-except ImportError:  # pragma: no cover
-    pass  # pragma: no cover
 
 try:
     import cplex
