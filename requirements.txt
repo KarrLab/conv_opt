@@ -6,14 +6,7 @@ cython
 mock
 optlang
 quadprog
-git+https://github.com/davidfischer/requirements-parser.git#egg=requirements-parser
+git+https://github.com/davidfischer/requirements-parser.git#egg=requirements_parser
 scipy
 swiglpk
 sympy
-
-# optional solvers
-cplex[cplex]
-git+https://github.com/jjhelmus/CyLP.git@py3#egg=cylp[cbc]
-gurobipy[gurobi]
-mosek[mosek]
-xpress[xpress]

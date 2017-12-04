@@ -1,0 +1,14 @@
+[cplex]
+cplex
+
+[cbc]
+git+https://github.com/jjhelmus/CyLP.git@py3#egg=cylp
+
+[gurobi]
+gurobipy
+
+[mosek]
+mosek
+
+[xpress]
+xpress
