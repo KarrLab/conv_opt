@@ -9,3 +9,4 @@ include LICENSE
 
 # requirements
 include requirements.txt
+include requirements.optional.txt
