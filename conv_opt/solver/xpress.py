@@ -16,7 +16,7 @@ import numpy
 import sys
 try:
     import xpress
-except ImportError:
+except (ImportError, RuntimeError):
     import warnings
     warnings.warn('FICO XPRESS is not installed', UserWarning)
 
