@@ -2,7 +2,7 @@
 cplex
 
 [cbc]
-git+https://github.com/jjhelmus/CyLP.git@py3#egg=cylp
+git+https://github.com/jjhelmus/CyLP.git@py3#egg=cylp-0.7.4
 
 [gurobi]
 gurobipy
