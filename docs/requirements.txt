@@ -7,7 +7,7 @@ cython
 mock
 optlang
 quadprog
-sphinx >= 1.6
+sphinx >= 1.7
 sphinx_rtd_theme
 robpol86_sphinxcontrib_googleanalytics
 sphinxcontrib_bibtex
