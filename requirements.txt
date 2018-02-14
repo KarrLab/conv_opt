@@ -3,9 +3,13 @@ capturer
 cvxopt
 cvxpy
 cython
+enum34
 mock
+numpy
 optlang
 quadprog
+setuptools
 scipy
+six
 swiglpk
 sympy
