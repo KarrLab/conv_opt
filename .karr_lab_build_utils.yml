@@ -1,1 +1,4 @@
-- h1_hesc
+downstream_dependencies:
+  - h1_hesc
+email_notifications:
+  - jonrkarr@gmail.com
