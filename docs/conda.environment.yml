@@ -9,7 +9,7 @@ dependencies:
   - cython
   - numpy
   - pip
-  - python>=3.6.4
+  - python<3 # necessary because cylp is only available from conda for Python 2.7
   - sphinx
   - swig
   - sympy
