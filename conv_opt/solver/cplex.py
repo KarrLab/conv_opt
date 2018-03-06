@@ -196,6 +196,9 @@ class CplexModel(SolverModel):
         if self._options.tune:
             model.parameters.tune_problem()
 
+        # set solver options
+        self.set_solver_options()
+
         model.solve()
         sol = model.solution
 
@@ -225,6 +228,26 @@ class CplexModel(SolverModel):
             duals = numpy.full((model.linear_constraints.get_num() + model.quadratic_constraints.get_num(),), numpy.nan)
 
         return Result(status_code, status_message, value, primals, reduced_costs, duals)
+
+    def set_solver_options(self):
+        """ Set solver options """
+        self.set_parameters()
+
+    def set_parameters(self, parameters=None, values=None):
+        """ Set CPLEX parameters 
+
+        Args:
+            parameters (:obj:`object`, optional): parameters object
+            values (:obj:`dict`, optional): parameter values
+        """
+        parameters = parameters or self._model.parameters
+        values = values or self._options.solver_options.get('cplex', {}).get('parameters', {})
+
+        for key, val in values.items():
+            if isinstance(val, dict):
+                self.set_parameters(parameters=getattr(parameters, key), values=val)
+            else:
+                getattr(parameters, key).set(val)
 
     def get_stats(self):
         """ Get diagnostic information about the model

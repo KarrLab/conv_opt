@@ -426,6 +426,10 @@ class Model(object):
         # return result
         return result
 
+    def set_solver_options(self):
+        """ Set solver options """
+        pass  # pragma: no cover
+
     def _unpack_result(self, result):
         """ Assign primal and dual attributes of the variables and constraints
 

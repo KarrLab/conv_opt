@@ -218,6 +218,38 @@ class TestCplex(SolverTestCase):
         self.assertEqual(result.status_code, conv_opt.StatusCode.optimal)
         self.assertEqual(result.value, 2.)
 
+    def test_set_solver_options(self):
+        model = conv_opt.Model()
+        var = conv_opt.Variable(name='variable', lower_bound=-3, upper_bound=2.)
+        model.variables.append(var)
+        model.objective_direction = conv_opt.ObjectiveDirection.maximize
+        model.objective_terms = [conv_opt.LinearTerm(variable=var, coefficient=1.)]
+        options = conv_opt.SolveOptions(
+            solver=conv_opt.Solver.cplex,
+            solver_options={
+                'cplex': {
+                    'parameters': {
+                        'emphasis': {
+                            'numerical': 1,
+                        },
+                        'read': {
+                            'scale': 0,
+                        },
+                    },
+                },
+            })
+        cplex_model = model.convert(options=options)
+
+        cplex_model.solve()
+        self.assertEqual(cplex_model._model.parameters.emphasis.numerical.get(), 1)
+        self.assertEqual(cplex_model._model.parameters.read.scale.get(), 0)
+
+        options.solver_options['cplex']['parameters']['emphasis']['numerical'] = 0
+        options.solver_options['cplex']['parameters']['read']['scale'] = 1
+        cplex_model.set_solver_options()
+        self.assertEqual(cplex_model._model.parameters.emphasis.numerical.get(), 0)
+        self.assertEqual(cplex_model._model.parameters.read.scale.get(), 1)
+
     def test_infeasible(self):
         model = conv_opt.Model()
 
