@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: /root/project
     docker:
-      - image: karrlab/build:0.0.21
+      - image: karrlab/build:0.0.22
     steps:
       # make XPRESS license check exit quickly
       - run: sed -i 's/^use_server server=".\?\+"$/use_server server=""/g' /opt/xpressmp/bin/xpauth.xpr
