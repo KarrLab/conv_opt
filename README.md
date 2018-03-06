@@ -1,5 +1,5 @@
 [![PyPI package](https://img.shields.io/pypi/v/conv_opt.svg)](https://pypi.python.org/pypi/conv_opt)
-[![Documentation](https://readthedocs.org/projects/conv_opt/badge/?version=latest)](http://conv_opt.readthedocs.org)
+[![Documentation](https://img.shields.io/badge/docs-latest-green.svg)](http://docs.karrlab.org/conv_opt)
 [![Test results](https://circleci.com/gh/KarrLab/conv_opt.svg?style=shield)](https://circleci.com/gh/KarrLab/conv_opt)
 [![Test coverage](https://coveralls.io/repos/github/KarrLab/conv_opt/badge.svg)](https://coveralls.io/github/KarrLab/conv_opt)
 [![Code analysis](https://api.codeclimate.com/v1/badges/f61deab196a9dbf42555/maintainability)](https://codeclimate.com/github/KarrLab/conv_opt)
@@ -23,10 +23,10 @@ multiple open-source and commercials solvers including [Cbc](https://projects.co
    ```
    pip install git+git://github.com/KarrLab/conv_opt#egg=conv_opt
    ```
-3. Optionally, install the Cbc/CyLP, FICO XPRESS, IBM CPLEX, Gurobi, and Mosek solvers. Please see our detailed [instructions](http://intro-to-wc-modeling.readthedocs.io/en/latest/installation.html).
+3. Optionally, install the Cbc/CyLP, FICO XPRESS, IBM CPLEX, Gurobi, and Mosek solvers. Please see our detailed [instructions](http://docs.karrlab.org/intro_to_wc_modeling/latest/installation.html).
 
 ## Documentation
-Please see the [API documentation](http://conv_opt.readthedocs.io).
+Please see the [API documentation](http://docs.karrlab.org/conv_opt).
 
 ## License
 The build utilities are released under the [MIT license](LICENSE).

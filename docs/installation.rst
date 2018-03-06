@@ -14,7 +14,7 @@ First, install `Python <https://www.python.org>`_ and `pip <https://pip.pypa.io>
 Optional requirements
 --------------------------
 
-Second, optionally install additional solvers. Please see our detailed `instructions <http://intro-to-wc-modeling.readthedocs.io/en/latest/installation.html>`_.
+Second, optionally install additional solvers. Please see our detailed `instructions <http://docs.karrlab.org/intro_to_wc_modeling/latest/installation.html>`_.
 
 * `Cbc <https://projects.coin-or.org/cbc>`_ and `CyLP <mpy.github.io/CyLPdoc/>`_
 * `FICO XPRESS <http://www.fico.com/en/products/fico-xpress-optimization>`_

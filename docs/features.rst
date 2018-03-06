@@ -110,7 +110,7 @@ Python versions
 
 * CPLEX supports Python 2.7, 3.5, and 3.6. However, you must edit ``setup.py`` and
   ``cplex/_internal/_pycplex_platform.py`` to run CPLEX on Python 3.6. See our
-  `instructions <http://intro-to-wc-modeling.readthedocs.io/en/latest/installation.html>`_.
+  `instructions <http://docs.karrlab.org/intro_to_wc_modeling/latest/installation.html>`_.
 
 
 Licensing
