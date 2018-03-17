@@ -1,16 +1,8 @@
-attrdict
-capturer
-configparser
-cvxopt
-cvxpy
-cython
 mock
-optlang
-quadprog
+pip_check_reqs
+robpol86_sphinxcontrib_googleanalytics
+six
 sphinx >= 1.7
 sphinx_rtd_theme
-robpol86_sphinxcontrib_googleanalytics
 sphinxcontrib_bibtex
 sphinxcontrib_spelling
-swiglpk
-sympy
