@@ -2,6 +2,7 @@
 #
 # Documentation build configuration file, created by karr_lab_build_utils.
 #
+import datetime
 import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
@@ -48,7 +49,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'conv_opt'
-copyright = u'2017, Karr Lab'
+copyright = u'{}, Karr Lab'.format(datetime.datetime.now().year)
 author = u'Karr Lab'
 
 # The version info for the project you're documenting, acts as replacement for
