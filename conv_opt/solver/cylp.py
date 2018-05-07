@@ -17,7 +17,6 @@ try:
 except ImportError:
     import warnings
     warnings.warn('CyLP is not installed', UserWarning)
-import capturer
 import numpy
 
 
