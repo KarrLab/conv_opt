@@ -1,5 +1,5 @@
 [![PyPI package](https://img.shields.io/pypi/v/conv_opt.svg)](https://pypi.python.org/pypi/conv_opt)
-[![Documentation](https://img.shields.io/badge/docs-latest-green.svg)](http://docs.karrlab.org/conv_opt)
+[![Documentation](https://readthedocs.org/projects/conv-opt/badge/?version=latest)](http://docs.karrlab.org/conv_opt)
 [![Test results](https://circleci.com/gh/KarrLab/conv_opt.svg?style=shield)](https://circleci.com/gh/KarrLab/conv_opt)
 [![Test coverage](https://coveralls.io/repos/github/KarrLab/conv_opt/badge.svg)](https://coveralls.io/github/KarrLab/conv_opt)
 [![Code analysis](https://api.codeclimate.com/v1/badges/f61deab196a9dbf42555/maintainability)](https://codeclimate.com/github/KarrLab/conv_opt)
