@@ -13,13 +13,15 @@ import mock
 import numpy
 import unittest
 
+if conv_opt.Solver.cbc in conv_opt.ENABLED_SOLVERS:
+    import cylp.py.modeling
+    from cylp.py.modeling.CyLPModel import getCoinInfinity
+
 
 @unittest.skipUnless(conv_opt.Solver.cbc in conv_opt.ENABLED_SOLVERS, 'Cbc is not installed')
 class CbcTestCase(SolverTestCase):
 
     def test_convert(self):
-        import cylp.py.modeling
-        from cylp.py.modeling.CyLPModel import getCoinInfinity
         inf = getCoinInfinity()
 
         model = self.create_lp()
@@ -70,7 +72,6 @@ class CbcTestCase(SolverTestCase):
         self.assert_milp(model, 'cbc', status_message='optimal', check_duals=True)
 
     def test_supported_variable_types(self):
-        from cylp.py.modeling.CyLPModel import getCoinInfinity
         inf = getCoinInfinity()
 
         model = conv_opt.Model()

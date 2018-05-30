@@ -12,13 +12,14 @@ import conv_opt
 import numpy
 import unittest
 
+if conv_opt.Solver.cplex in conv_opt.ENABLED_SOLVERS:
+    import cplex
+
 
 @unittest.skipUnless(conv_opt.Solver.cplex in conv_opt.ENABLED_SOLVERS, 'IBM CPLEX is not installed')
 class TestCplex(SolverTestCase):
 
     def test_convert(self):
-        import cplex
-
         model = self.create_lp()
         cplex_model = model.convert(conv_opt.SolveOptions(solver=conv_opt.Solver.cplex)).get_model()
 

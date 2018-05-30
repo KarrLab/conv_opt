@@ -102,7 +102,7 @@ ENABLED_SOLVERS = [Solver.glpk, Solver.quadprog, Solver.scipy]
 try:
     import cvxpy
     ENABLED_SOLVERS.append(Solver.cvxopt)
-except ImportError:  # pragma: no cover
+except:  # pragma: no cover
     pass  # pragma: no cover
 
 try:

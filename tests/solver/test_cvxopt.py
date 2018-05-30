@@ -9,9 +9,11 @@
 from ..test_core import SolverTestCase
 import capturer
 import conv_opt
-import cvxpy
 import numpy
 import unittest
+
+if conv_opt.Solver.cvxopt in conv_opt.ENABLED_SOLVERS:
+    import cvxpy
 
 
 @unittest.skipUnless(conv_opt.Solver.cvxopt in conv_opt.ENABLED_SOLVERS, 'CVXOPT is not installed')

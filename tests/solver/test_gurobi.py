@@ -12,13 +12,14 @@ import conv_opt
 import numpy
 import unittest
 
+if conv_opt.Solver.gurobi in conv_opt.ENABLED_SOLVERS:
+    import gurobipy
+
 
 @unittest.skipUnless(conv_opt.Solver.gurobi in conv_opt.ENABLED_SOLVERS, 'Gurobi is not installed')
 class GurobiTestCase(SolverTestCase):
 
     def test_convert(self):
-        import gurobipy
-
         model = self.create_lp()
         gurobi_model = model.convert(conv_opt.SolveOptions(solver=conv_opt.Solver.gurobi)).get_model()
 
@@ -76,8 +77,6 @@ class GurobiTestCase(SolverTestCase):
         self.assert_miqp(model, 'gurobi', status_message='')
 
     def test_supported_variable_types(self):
-        import gurobipy
-
         model = conv_opt.Model()
 
         binary_var = conv_opt.Variable(name='binary_var', type=conv_opt.VariableType.binary)
@@ -128,8 +127,6 @@ class GurobiTestCase(SolverTestCase):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.gurobi))
 
     def test_miqp_model(self):
-        import gurobipy
-
         model = conv_opt.Model()
 
         # model

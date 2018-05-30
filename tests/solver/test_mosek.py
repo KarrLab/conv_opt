@@ -12,6 +12,9 @@ import conv_opt
 import numpy
 import unittest
 
+if conv_opt.Solver.mosek in conv_opt.ENABLED_SOLVERS:
+    import mosek
+
 
 @unittest.skipUnless(conv_opt.Solver.mosek in conv_opt.ENABLED_SOLVERS, 'MOSEK Optimizer is not installed')
 class MosekTestCase(SolverTestCase):
@@ -45,8 +48,6 @@ class MosekTestCase(SolverTestCase):
         self.assert_miqp(model, 'mosek', presolve=conv_opt.Presolve.off, status_message='')
 
     def test_supported_variable_types(self):
-        import mosek
-
         model = conv_opt.Model()
 
         binary_var = conv_opt.Variable(name='binary_var', type=conv_opt.VariableType.binary)
@@ -73,8 +74,6 @@ class MosekTestCase(SolverTestCase):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.mosek))
 
     def test_fixed_variable(self):
-        import mosek
-
         model = conv_opt.Model()
 
         var = conv_opt.Variable(name='var', lower_bound=0., upper_bound=0.0)
@@ -99,7 +98,6 @@ class MosekTestCase(SolverTestCase):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.mosek))
 
     def test_miqp_model(self):
-        import mosek
         model = conv_opt.Model()
 
         # model
@@ -115,8 +113,6 @@ class MosekTestCase(SolverTestCase):
         self.assertEqual(mosek_model.getprobtype(), mosek.problemtype.qo)
 
     def test_unconstrained_constraint(self):
-        import mosek
-
         model = conv_opt.Model()
         var = conv_opt.Variable()
         model.variables.append(var)

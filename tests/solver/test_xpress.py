@@ -12,13 +12,14 @@ import conv_opt
 import numpy
 import unittest
 
+if conv_opt.Solver.xpress in conv_opt.ENABLED_SOLVERS:
+    import xpress
+
 
 @unittest.skipUnless(conv_opt.Solver.xpress in conv_opt.ENABLED_SOLVERS, 'FICO XPRESS is not installed')
 class XpressTestCase(SolverTestCase):
 
     def test_convert(self):
-        import xpress
-
         model = self.create_lp()
         xpress_model = model.convert(conv_opt.SolveOptions(solver=conv_opt.Solver.xpress)).get_model()
 
@@ -117,8 +118,6 @@ class XpressTestCase(SolverTestCase):
         self.assert_miqp(model, 'xpress', status_message='mip_optimal')
 
     def test_supported_variable_types(self):
-        import xpress
-
         model = conv_opt.Model()
 
         binary_var = conv_opt.Variable(name='binary_var', type=conv_opt.VariableType.binary)
