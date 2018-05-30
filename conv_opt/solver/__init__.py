@@ -9,13 +9,13 @@ from .scipy import ScipyModel
 # CVXOPT
 try:
     from .cvxopt import CvxoptModel
-except ImportError:
+except:
     pass  # pragma: no cover
 
 # CVXPY
 try:
     from .cvxpy import CvxpyModel
-except ImportError:
+except:
     pass  # pragma: no cover
 
 # IBM CPLEX
