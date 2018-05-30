@@ -14,6 +14,7 @@ import numpy
 import unittest
 
 
+@unittest.skipUnless(conv_opt.Solver.cvxopt in conv_opt.ENABLED_SOLVERS, 'CVXOPT is not installed')
 class CvxoptTestCase(SolverTestCase):
 
     def test_convert(self):

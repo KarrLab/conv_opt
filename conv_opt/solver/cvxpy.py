@@ -45,9 +45,9 @@ class CvxpyModel(SolverModel):
         solver_vars = []
         for variable in conv_opt_model.variables:
             if variable.type == VariableType.binary:
-                solver_var = cvxpy.Bool(name=variable.name)
+                solver_var = cvxpy.Variable(name=variable.name, boolean=True)
             elif variable.type == VariableType.integer:
-                solver_var = cvxpy.Int(name=variable.name)
+                solver_var = cvxpy.Variable(name=variable.name, integer=True)
             elif variable.type == VariableType.continuous:
                 solver_var = cvxpy.Variable(name=variable.name)
             else:

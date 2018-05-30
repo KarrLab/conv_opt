@@ -1,8 +1,12 @@
+[cbc]
+git+https://github.com/jjhelmus/CyLP.git@py3#egg=cylp-0.7.4
+
 [cplex]
 cplex
 
-[cbc]
-git+https://github.com/jjhelmus/CyLP.git@py3#egg=cylp-0.7.4
+[cvxopt]
+cvxopt
+cvxpy >= 1.0.3
 
 [gurobi]
 gurobipy

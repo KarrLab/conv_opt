@@ -96,9 +96,14 @@ class ExportFormat(enum.Enum):
     xml = 13
 
 
-ENABLED_SOLVERS = [Solver.cvxopt, Solver.glpk, Solver.quadprog, Solver.scipy]
+ENABLED_SOLVERS = [Solver.glpk, Solver.quadprog, Solver.scipy]
 # :obj:`list` of :obj:`Solver`: list of enabled solvers
 
+try:
+    import cvxpy
+    ENABLED_SOLVERS.append(Solver.cvxopt)
+except ImportError:  # pragma: no cover
+    pass  # pragma: no cover
 
 try:
     import cylp.cy

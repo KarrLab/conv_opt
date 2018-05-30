@@ -1,12 +1,22 @@
 """ Open-source, easily installable solvers """
-from .cvxopt import CvxoptModel
-from .cvxpy import CvxpyModel
 from .glpk import GlpkModel
 from .optlang import OptlangModel
 from .quadprog import QuadprogModel
 from .scipy import ScipyModel
 
 """ Optional solvers """
+
+# CVXOPT
+try:
+    from .cvxopt import CvxoptModel
+except ImportError:
+    pass  # pragma: no cover
+
+# CVXPY
+try:
+    from .cvxpy import CvxpyModel
+except ImportError:
+    pass  # pragma: no cover
 
 # IBM CPLEX
 try:

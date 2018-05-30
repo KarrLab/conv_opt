@@ -1,7 +1,5 @@
 attrdict
 capturer
-cvxopt
-cvxpy
 cython
 enum34
 mock
