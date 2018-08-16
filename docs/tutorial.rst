@@ -66,7 +66,7 @@ Tutorial
         ], name='contraint_1', upper_bound=0, lower_bound=0)
         model.constraints.append(contraint_1)
 
-    The first argument s hould be a lsit of linear terms.
+    The first argument should be a list of linear terms.
 
     The default name and upper and lower bounds are :obj:`None`.
 
@@ -84,9 +84,11 @@ Tutorial
     * :obj:`conv_opt.Solver.cvxopt`
     * :obj:`conv_opt.Solver.glpk`
     * :obj:`conv_opt.Solver.gurobi`
+    * :obj:`conv_opt.Solver.minos`
     * :obj:`conv_opt.Solver.mosek`
     * :obj:`conv_opt.Solver.quadprog`
     * :obj:`conv_opt.Solver.scipy`
+    * :obj:`conv_opt.Solver.soplex`
     * :obj:`conv_opt.Solver.xpress`
 
     The :obj:`presolve` aregument must be one of the following values. The default value is off.

@@ -14,9 +14,9 @@ from ..core import (ModelType, ObjectiveDirection, Presolve,
 try:
     import cylp.cy
     import cylp.py.modeling
-except ImportError:
-    import warnings
-    warnings.warn('CyLP is not installed', UserWarning)
+except ImportError:  # pragma: no cover
+    import warnings  # pragma: no cover
+    warnings.warn('CyLP is not installed', UserWarning)  # pragma: no cover
 import numpy
 
 

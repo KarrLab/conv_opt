@@ -64,9 +64,14 @@ This package supports several solvers:
 
     * `Cbc <https://projects.coin-or.org/cbc>`_ via `CyLP <https://github.com/coin-or/CyLP>`_
     * `CVXOPT <http://cvxopt.org>`_ via `CVXPY <https://cvxgrp.github.io>`_
-    * `GLPK <https://www.gnu.org/software/glpk>`_ via `optlang <http://optlang.readthedocs.io>`_
+    * `GLPK <https://www.gnu.org/software/glpk>`_ via `optlang <http://optlang.readthedocs.io>`_    
     * `quadprog <https://github.com/rmcgibbo/quadprog>`_
-    * `SciPy <https://docs.scipy.org>`_
+    * `SciPy <https://docs.scipy.org>`_    
+
+* Non-commercial with free academic licenses
+
+    * `MINOS <https://web.stanford.edu/group/SOL/minos.htm>`_ via `solveME <https://github.com/SBRG/solvemepy>`_
+    * `SoPlex <http://soplex.zib.de>`_ via `soplex_cython <https://github.com/SBRG/soplex_cython>`_
 
 * Commercial with free academic licenses
 
@@ -94,6 +99,7 @@ Variable types
 * GLPK: only supports binary, integer, and continuous variables
 * Gurobi: doesn't support partially integer variables
 * IBM CPLEX: doesn't support partially integer variables
+* MINOS: only supports continuous variables
 * MOSEK Optimizer: only supports binary, integer, and continuous variables
 * quadprog: only supports continuous variables
 * Scipy: only supports continuous variables
@@ -108,9 +114,7 @@ Cbc, GLPK, and quadprog only support linear constraints. Only SciPy's COBLYA and
 Python versions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-* CPLEX supports Python 2.7, 3.5, and 3.6. However, you must edit ``setup.py`` and
-  ``cplex/_internal/_pycplex_platform.py`` to run CPLEX on Python 3.6. See our
-  `instructions <http://docs.karrlab.org/intro_to_wc_modeling/latest/installation.html>`_.
+* CPLEX supports Python 2.7, 3.5, and 3.6
 
 
 Licensing
@@ -119,4 +123,6 @@ Licensing
 * FICO XPRESS: licenses are tied to machines, or a license server must be used
 * Gurobi: licenses are tied to machines, or a license server must be used
 * IBM CPLEX: No license file or activation is needed
+* MINOS: free academic licenses can be obtained from Michael Saunders at Stanford
 * MOSEL Optimizer: license files can be used on multiple machines
+* SoPlex: free academic licenses can be automatically obtained from the SoPlex website

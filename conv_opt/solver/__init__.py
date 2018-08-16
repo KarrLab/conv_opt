@@ -36,9 +36,21 @@ try:
 except ImportError:
     pass  # pragma: no cover
 
+# MINOS
+try:
+    from .minos import MinosModel
+except ImportError:
+    pass  # pragma: no cover
+
 # MOSEK
 try:
     from .mosek import MosekModel
+except ImportError:
+    pass  # pragma: no cover
+
+# SoPlex
+try:
+    from .soplex import SoplexModel
 except ImportError:
     pass  # pragma: no cover
 

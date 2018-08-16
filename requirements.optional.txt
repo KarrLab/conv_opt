@@ -11,8 +11,14 @@ cvxpy >= 1.0.3
 [gurobi]
 gurobipy
 
+[minos]
+minos
+
 [mosek]
 mosek
+
+[soplex]
+soplex
 
 [xpress]
 xpress

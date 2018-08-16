@@ -16,9 +16,9 @@ import numpy
 import sys
 try:
     import xpress
-except (ImportError, RuntimeError):
-    import warnings
-    warnings.warn('FICO XPRESS is not installed', UserWarning)
+except (ImportError, RuntimeError):  # pragma: no cover
+    import warnings  # pragma: no cover
+    warnings.warn('FICO XPRESS is not installed', UserWarning)  # pragma: no cover
 
 
 class XpressModel(SolverModel):

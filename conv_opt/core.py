@@ -50,9 +50,11 @@ class Solver(enum.Enum):
     cvxopt = 2
     glpk = 3
     gurobi = 4
+    minos = 9
     mosek = 5
     quadprog = 6
     scipy = 7
+    soplex = 10
     xpress = 8
 
 
@@ -98,7 +100,6 @@ class ExportFormat(enum.Enum):
 
 ENABLED_SOLVERS = [Solver.glpk, Solver.quadprog, Solver.scipy]
 # :obj:`list` of :obj:`Solver`: list of enabled solvers
-
 try:
     import cvxpy
     ENABLED_SOLVERS.append(Solver.cvxopt)
@@ -128,10 +129,18 @@ except ImportError:  # pragma: no cover
 try:
     import gurobipy
     try:
-        gurobipy.Model()
+        import capturer
+        with capturer.CaptureOutput(merged=False, relay=False):
+            gurobipy.Model()
         ENABLED_SOLVERS.append(Solver.gurobi)
     except gurobipy.GurobiError:  # pragma: no cover
         pass  # pragma: no cover
+except ImportError:  # pragma: no cover
+    pass  # pragma: no cover
+
+try:
+    import qminospy
+    ENABLED_SOLVERS.append(Solver.minos)
 except ImportError:  # pragma: no cover
     pass  # pragma: no cover
 
@@ -141,6 +150,16 @@ try:
         mosek.Env()
         ENABLED_SOLVERS.append(Solver.mosek)
     except mosek.Error:  # pragma: no cover
+        pass  # pragma: no cover
+except ImportError:  # pragma: no cover
+    pass  # pragma: no cover
+
+try:
+    import soplex
+    try:
+        soplex.Soplex()
+        ENABLED_SOLVERS.append(Solver.soplex)
+    except:  # pragma: no cover
         pass  # pragma: no cover
 except ImportError:  # pragma: no cover
     pass  # pragma: no cover
@@ -269,18 +288,20 @@ class SolveOptions(object):
         solver (:obj:`Solver`): solver
         tune (:obj:`bool`): tune (used by Gurobi)
         presolve (:obj:`Presolve`): presolve
+        precision (:obj:`int`): number of bits of numerical precision
         round_results_to_bounds (:obj:`bool`): if :obj:`True`, round the results to the variable bounds
         verbosity (:obj:`Verbosity`): determines how much status, warnings, and errors is printed out
         solver_options (:obj:`attrdict.AttrDict`): solver options
     """
 
-    def __init__(self, solver=Solver.cplex, tune=False, presolve=Presolve.off,
+    def __init__(self, solver=Solver.cplex, tune=False, presolve=Presolve.off, precision=64,
                  round_results_to_bounds=True, verbosity=Verbosity.off, solver_options=None):
         """
         Args:
             solver (:obj:`Solver`, optional): solver
             tune (:obj:`bool`, optional): tune (used by Gurobi)
             presolve (:obj:`Presolve`, optional): presolve
+            precision (:obj:`int`, optional): number of bits of numerical precision
             round_results_to_bounds (:obj:`bool`, optional): if :obj:`True`, round the results to the variable bounds
             verbosity (:obj:`Verbosity`, optional): determines how much status, warnings, and errors is printed out
             solver_options (:obj:`attrdict.AttrDict`, optional): options for specific solvers
@@ -288,6 +309,7 @@ class SolveOptions(object):
         self.solver = solver
         self.tune = tune
         self.presolve = presolve
+        self.precision = precision
         self.round_results_to_bounds = round_results_to_bounds
         self.verbosity = verbosity
         self.solver_options = solver_options or attrdict.AttrDict()
@@ -382,6 +404,9 @@ class Model(object):
         elif options.solver == Solver.gurobi:
             from .solver import gurobi
             return gurobi.GurobiModel(self, options)
+        elif options.solver == Solver.minos:
+            from .solver import minos
+            return minos.MinosModel(self, options)
         elif options.solver == Solver.mosek:
             from .solver import mosek
             return mosek.MosekModel(self, options)
@@ -391,6 +416,9 @@ class Model(object):
         elif options.solver == Solver.scipy:
             from .solver import scipy
             return scipy.ScipyModel(self, options)
+        elif options.solver == Solver.soplex:
+            from .solver import soplex
+            return soplex.SoplexModel(self, options)
         elif options.solver == Solver.xpress:
             from .solver import xpress
             return xpress.XpressModel(self, options)
@@ -504,6 +532,10 @@ class Model(object):
             from .solver import mosek
             with mosek.MosekModel(self).get_model() as task:
                 task.writedata(filename)
+        elif Solver.soplex in preferred_solvers and format in ['lp']:
+            from .solver import soplex
+            with soplex.SoplexModel(self).get_model() as model:
+                model.write(filename, state=False, rational=False)
         elif Solver.xpress in preferred_solvers and format in ['lp', 'mps']:
             from .solver import xpress
             model = xpress.XpressModel(self).get_model()

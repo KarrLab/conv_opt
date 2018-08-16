@@ -14,9 +14,9 @@ from ..core import (ModelType, ObjectiveDirection, Presolve,
 import capturer
 try:
     import gurobipy
-except ImportError:
-    import warnings
-    warnings.warn('Gurobi is not installed', UserWarning)
+except ImportError:  # pragma: no cover
+    import warnings  # pragma: no cover
+    warnings.warn('Gurobi is not installed', UserWarning)  # pragma: no cover
 import numpy
 
 

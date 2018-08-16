@@ -22,6 +22,8 @@ We tested the package with the following package versions:
     * FICO XPRESS: 8.4.0
     * Gurobi: 7.5.1
     * IBM CPLEX: 12.7.1.0
+    * MINOS: 5.6
     * MOSEK Optimizer: 8.1.33
     * quadprog: 0.1.6
     * SciPy: 1.0.0
+    * SoPlex: 3.1.1

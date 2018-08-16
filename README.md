@@ -13,8 +13,9 @@ multiple open-source and commercials solvers including [Cbc](https://projects.co
 [CVXOPT](http://cvxopt.org), [FICO XPRESS](http://www.fico.com/en/products/fico-xpress-optimization),
 [GLPK](https://www.gnu.org/software/glpk), [Gurobi](http://www.gurobi.com/products/gurobi-optimizer),
 [IBM CPLEX](https://www-01.ibm.com/software/commerce/optimization/cplex-optimizer),
-[Mosek](https://www.mosek.com), [quadprog](https://github.com/rmcgibbo/quadprog), and 
-[SciPy](https://docs.scipy.org).
+[MINOS](https://web.stanford.edu/group/SOL/minos.htm),
+[Mosek](https://www.mosek.com), [quadprog](https://github.com/rmcgibbo/quadprog), 
+[SciPy](https://docs.scipy.org), and [SoPlex](http://soplex.zib.de).
 
 ## Installation
 
@@ -23,7 +24,7 @@ multiple open-source and commercials solvers including [Cbc](https://projects.co
    ```
    pip install git+git://github.com/KarrLab/conv_opt#egg=conv_opt
    ```
-3. Optionally, install the Cbc/CyLP, FICO XPRESS, IBM CPLEX, Gurobi, and Mosek solvers. Please see our detailed [instructions](http://docs.karrlab.org/intro_to_wc_modeling/latest/installation.html).
+3. Optionally, install the Cbc/CyLP, FICO XPRESS, IBM CPLEX, Gurobi, MINOS, Mosek, and SoPlex solvers. Please see our detailed [instructions](http://docs.karrlab.org/intro_to_wc_modeling/latest/installation.html).
 
 ## Documentation
 Please see the [API documentation](http://docs.karrlab.org/conv_opt).

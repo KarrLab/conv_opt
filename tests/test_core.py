@@ -83,10 +83,12 @@ class SolverTestCase(unittest.TestCase):
         # return model
         return model
 
-    def assert_lp(self, model, solver, presolve=conv_opt.Presolve.off,
-                  status_message='optimal', check_reduced_costs=True, check_duals=True):
+    def assert_lp(self, model, solver, precision=64, presolve=conv_opt.Presolve.off,
+                  status_message='optimal', check_reduced_costs=True, check_duals=True,
+                  places=10):
         options = conv_opt.SolveOptions(
             solver=conv_opt.Solver[solver],
+            precision=precision,
             presolve=presolve,
         )
         solver_model = model.convert(options=options)
@@ -98,21 +100,21 @@ class SolverTestCase(unittest.TestCase):
         numpy.testing.assert_array_almost_equal(result.primals, numpy.array([1., 1., 0., 1., 0., 2., 2.]))
 
         if check_reduced_costs:
-            self.assertEqual(result.reduced_costs[0], 2)
-            self.assertEqual(result.reduced_costs[1], 0)
-            #self.assertEqual(result.reduced_costs[2], -1)
-            self.assertEqual(result.reduced_costs[3], 0)
-            self.assertEqual(result.reduced_costs[4], 0)
-            self.assertEqual(result.reduced_costs[5], 0)
-            self.assertEqual(result.reduced_costs[6], 0)
+            self.assertAlmostEqual(result.reduced_costs[0], 2, places=places)
+            self.assertAlmostEqual(result.reduced_costs[1], 0, places=places)
+            #self.assertAlmostEqual(result.reduced_costs[2], -1, places=places)
+            self.assertAlmostEqual(result.reduced_costs[3], 0, places=places)
+            self.assertAlmostEqual(result.reduced_costs[4], 0, places=places)
+            self.assertAlmostEqual(result.reduced_costs[5], 0, places=places)
+            self.assertAlmostEqual(result.reduced_costs[6], 0, places=places)
 
         if check_duals:
-            self.assertEqual(result.duals[0], -2)
-            self.assertEqual(result.duals[1], -2)
-            #self.assertEqual(result.duals[2], 0)
-            self.assertEqual(result.duals[3], -1)
-            self.assertEqual(result.duals[4], -1)
-            self.assertEqual(result.duals[5], 0)
+            self.assertAlmostEqual(result.duals[0], -2, places=places)
+            self.assertAlmostEqual(result.duals[1], -2, places=places)
+            #self.assertAlmostEqual(result.duals[2], 0, places=places)
+            self.assertAlmostEqual(result.duals[3], -1, places=places)
+            self.assertAlmostEqual(result.duals[4], -1, places=places)
+            self.assertAlmostEqual(result.duals[5], 0, places=places)
 
         solver_model.get_stats()
 

@@ -1,8 +1,13 @@
-""" IBM CPLEX module
+""" SoPlex module
+
+References:
+
+* `SoPlex <http://soplex.zib.de>`_
+* `soplex_cython <https://github.com/SBRG/soplex_cython>`_
 
 :Author: Jonathan Karr <jonrkarr@gmail.com>
-:Date: 2017-11-22
-:Copyright: 2017, Karr Lab
+:Date: 2018-08-14
+:Copyright: 2018, Karr Lab
 :License: MIT
 """
 
@@ -12,25 +17,25 @@ from ..core import (ModelType, ObjectiveDirection, Presolve,
                     Constraint, LinearTerm, Model, QuadraticTerm, Term, Variable, Result, ConvOptError,
                     SolverModel)
 try:
-    import cplex
-except ImportError:  # pragma: no cover
-    import warnings  # pragma: no cover
-    warnings.warn('IBM CPLEX is not installed', UserWarning)  # pragma: no cover
+    import soplex
+except ImportError:
+    import warnings
+    warnings.warn('SoPlex is not installed', UserWarning)
 import numpy
 import sys
 
 
-class CplexModel(SolverModel):
-    """ IBM CPLEX solver """
+class SoplexModel(SolverModel):
+    """ `SoPlex <http://soplex.zib.de>`_ solver """
 
     def load(self, conv_opt_model):
-        """ Load a model to CPLEX's data structure
+        """ Load a model to SoPlex's data structure
 
         Args:
             conv_opt_model (:obj:`Model`): model
 
         Returns:
-            :obj:`cplex.Cplex`: the model in CPLEX's data structure
+            :obj:`soplex.Soplex`: the model in SoPlex's data structure
 
         Raises:
             :obj:`ConvOptError`: if the presolve mode is not supported a variable has an unsupported
@@ -39,8 +44,7 @@ class CplexModel(SolverModel):
                 supported type
         """
 
-        solver_model = cplex.Cplex()
-        solver_model.set_problem_name(conv_opt_model.name)
+        solver_model = soplex.Soplex()
 
         # create variables and set bounds
         solver_types = solver_model.variables.type
@@ -234,14 +238,14 @@ class CplexModel(SolverModel):
         self.set_parameters()
 
     def set_parameters(self, parameters=None, values=None):
-        """ Set CPLEX parameters 
+        """ Set SoPlex parameters 
 
         Args:
             parameters (:obj:`object`, optional): parameters object
             values (:obj:`dict`, optional): parameter values
         """
         parameters = parameters or self._model.parameters
-        values = values or self._options.solver_options.get('cplex', {}).get('parameters', {})
+        values = values or self._options.solver_options.get('soplex', {}).get('parameters', {})
 
         for key, val in values.items():
             if isinstance(val, dict):

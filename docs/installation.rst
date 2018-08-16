@@ -20,6 +20,8 @@ Second, optionally install additional solvers. Please see our detailed `instruct
 * `FICO XPRESS <http://www.fico.com/en/products/fico-xpress-optimization>`_
 * `Gurobi <http://www.gurobi.com/products/gurobi-optimizer>`_
 * `IBM CPLEX <https://www-01.ibm.com/software/commerce/optimization/cplex-optimizer>`_
+* `MINOS <https://web.stanford.edu/group/SOL/minos.htm>`_
+* `SoPlex <http://soplex.zib.de>`_
 * `MOSEK Optimizer <https://www.mosek.com>`_
 
 
@@ -40,4 +42,4 @@ Alternatively, the latest version of this package can be installed from GitHub u
 
 Support for the optional solvers can be installed using the following options::
 
-    pip install conv_opt[cbc,cplex,gurobi,mosek,xpress]
+    pip install conv_opt[cbc,cplex,gurobi,minos,mosek,soplex,xpress]
