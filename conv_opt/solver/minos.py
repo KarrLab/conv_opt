@@ -21,7 +21,6 @@ import copy
 try:
     from qminospy import qwarmLP
     from qminospy import warmLP
-    from qminospy.me2 import makeME_LP
 except ImportError:  # pragma: no cover
     import warnings  # pragma: no cover
     warnings.warn('MINOS is not installed', UserWarning)  # pragma: no cover
@@ -227,7 +226,7 @@ class MinosModel(SolverModel):
         int_opts = {}
         float_opts = {}
         for key, val in options.items():
-            if isinstance(val, str):        
+            if isinstance(val, str):
                 str_opts[key] = val
             elif isinstance(val, int):
                 int_opts[key] = val
@@ -306,3 +305,58 @@ class MinosModel(SolverModel):
             :obj:`str`: diagnostic information about the model
         """
         pass
+
+# --- from https://github.com/SBRG/solvemepy --- #
+
+
+def makeME_LP(S, b, c, xl, xu, csense):
+    """
+    Create simple LP for qMINOS and MINOS
+    Inputs:
+    nlp_compat  Make matrices compatible with NLP so that basis can
+                be used to warm start NLP by setting 
+    12 Aug 2015: first version
+    """
+    import numpy as np
+    import scipy as sp
+    import scipy.sparse as sps
+    import time
+
+    # c is added as a free (unbounded slacks) row,
+    # so that MINOS treats problem as an LP - Ding Ma
+    J = sps.vstack((
+        S,
+        c)
+    ).tocsc()
+    J.sort_indices()
+    if hasattr(b, 'tolist'):
+        b = b.tolist()
+    b2 = b + [0.0]
+    m, n = J.shape
+    ne = J.nnz
+    # Finally, make the P, I, J, V, as well
+    # Row indices: recall fortran is 1-based indexing
+    I = [i+1 for i in J.indices]
+    V = J.data
+    # Pointers to start of each column
+    # Just change to 1-based indexing for Fortran
+    P = [pi+1 for pi in J.indptr]
+
+    # Make primal and slack bounds
+    bigbnd = 1e+40
+    # For csense==E rows (equality)
+    sl = np.matrix([bi for bi in b2]).transpose()
+    su = np.matrix([bi for bi in b2]).transpose()
+    for row, csen in enumerate(csense):
+        if csen == 'L':
+            sl[row] = -bigbnd
+        elif csen == 'G':
+            su[row] = bigbnd
+    # Objective row has free bounds
+    sl[m-1] = -bigbnd
+    su[m-1] = bigbnd
+
+    bl = sp.vstack([xl, sl])
+    bu = sp.vstack([xu, su])
+
+    return J, ne, P, I, V, bl, bu
