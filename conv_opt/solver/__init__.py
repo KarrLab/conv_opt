@@ -9,53 +9,53 @@ from .scipy import ScipyModel
 # CVXOPT
 try:
     from .cvxopt import CvxoptModel
-except:
+except:  # pragma: no cover
     pass  # pragma: no cover
 
 # CVXPY
 try:
     from .cvxpy import CvxpyModel
-except:
+except:  # pragma: no cover
     pass  # pragma: no cover
 
 # IBM CPLEX
 try:
     from .cplex import CplexModel
-except ImportError:
+except ImportError:  # pragma: no cover
     pass  # pragma: no cover
 
 # CyLP/CBC
 try:
     from .cylp import CylpModel
-except ImportError:
+except ImportError:  # pragma: no cover
     pass  # pragma: no cover
 
 # Gurobi
 try:
     from .gurobi import GurobiModel
-except ImportError:
+except ImportError:  # pragma: no cover
     pass  # pragma: no cover
 
 # MINOS
 try:
     from .minos import MinosModel
-except ImportError:
+except ImportError:  # pragma: no cover
     pass  # pragma: no cover
 
 # MOSEK
 try:
     from .mosek import MosekModel
-except ImportError:
+except ImportError:  # pragma: no cover
     pass  # pragma: no cover
 
 # SoPlex
 try:
     from .soplex import SoplexModel
-except ImportError:
+except ImportError:  # pragma: no cover
     pass  # pragma: no cover
 
 # FICO XPRESS
 try:
     from .xpress import XpressModel
-except ImportError:
+except ImportError:  # pragma: no cover
     pass  # pragma: no cover
