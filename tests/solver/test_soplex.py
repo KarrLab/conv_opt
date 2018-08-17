@@ -183,6 +183,9 @@ class SoplexTestCase(SolverTestCase):
         result = model.solve(options=conv_opt.SolveOptions(solver=conv_opt.Solver.soplex))
         numpy.testing.assert_equal(result.value, 5.5)
 
+    def test_export(self):
+        self.assert_export('lp', conv_opt.Solver.soplex)
+
 
 class MetabolitesListTestCase(unittest.TestCase):
     def test(self):

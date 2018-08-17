@@ -534,8 +534,8 @@ class Model(object):
                 task.writedata(filename)
         elif Solver.soplex in preferred_solvers and format in ['lp']:
             from .solver import soplex
-            with soplex.SoplexModel(self).get_model() as model:
-                model.write(filename, state=False, rational=False)
+            model = soplex.SoplexModel(self).get_model()
+            model.write(filename.encode('utf-8'), state=False, rational=False)
         elif Solver.xpress in preferred_solvers and format in ['lp', 'mps']:
             from .solver import xpress
             model = xpress.XpressModel(self).get_model()
