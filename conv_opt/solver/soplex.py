@@ -6,7 +6,7 @@ References:
 * `soplex_cython <https://github.com/SBRG/soplex_cython>`_
 
 :Author: Jonathan Karr <jonrkarr@gmail.com>
-:Date: 2018-08-14
+:Date: 2018-08-17
 :Copyright: 2018, Karr Lab
 :License: MIT
 """
@@ -16,17 +16,27 @@ from ..core import (ModelType, ObjectiveDirection, Presolve,
                     SolveOptions, Solver, StatusCode, VariableType, Verbosity,
                     Constraint, LinearTerm, Model, QuadraticTerm, Term, Variable, Result, ConvOptError,
                     SolverModel)
+import copy
+import mock
+import numpy
 try:
     import soplex
-except ImportError:
-    import warnings
-    warnings.warn('SoPlex is not installed', UserWarning)
-import numpy
+except ImportError:  # pragma: no cover
+    import warnings  # pragma: no cover
+    warnings.warn('SoPlex is not installed', UserWarning)  # pragma: no cover
 import sys
 
 
 class SoplexModel(SolverModel):
     """ `SoPlex <http://soplex.zib.de>`_ solver """
+
+    INF = 1e256
+
+    DEFAULT_OPTIONS = {
+        'ITERLIMIT':  2 ** 31 - 1,
+        'FEASTOL': 1e-20,
+        'OPTTOL': 1e-20,
+    }
 
     def load(self, conv_opt_model):
         """ Load a model to SoPlex's data structure
@@ -44,124 +54,106 @@ class SoplexModel(SolverModel):
                 supported type
         """
 
-        solver_model = soplex.Soplex()
+        cobra_model = mock.Mock()
 
         # create variables and set bounds
-        solver_types = solver_model.variables.type
+        cobra_model.reactions = []
+        for i_variable, variable in enumerate(conv_opt_model.variables):
+            rxn = mock.Mock()
+            cobra_model.reactions.append(rxn)
+            rxn.id = variable.name or ('variable_' + str(i_variable))
 
-        names = []
-        types = []
-        lb = []
-        ub = []
-
-        for variable in conv_opt_model.variables:
-            names.append(variable.name)
-
-            if variable.type == VariableType.binary:
-                types.append(solver_types.binary)
-            elif variable.type == VariableType.integer:
-                types.append(solver_types.integer)
-            elif variable.type == VariableType.continuous:
-                types.append(solver_types.continuous)
-            elif variable.type == VariableType.semi_integer:
-                types.append(solver_types.semi_integer)
-            elif variable.type == VariableType.semi_continuous:
-                types.append(solver_types.semi_continuous)
-            else:
+            if variable.type != VariableType.continuous:
                 raise ConvOptError('Unsupported variable of type "{}"'.format(variable.type))
 
             if variable.lower_bound is not None:
-                lb.append(variable.lower_bound)
+                rxn.lower_bound = max(variable.lower_bound, -self.INF)
             else:
-                lb.append(-1 * cplex.infinity)
+                rxn.lower_bound = -self.INF
 
             if variable.upper_bound is not None:
-                ub.append(variable.upper_bound)
+                rxn.upper_bound = min(variable.upper_bound, self.INF)
             else:
-                ub.append(cplex.infinity)
-        solver_model.variables.add(names=names, types=types, lb=lb, ub=ub)
+                rxn.upper_bound = self.INF
+
+            rxn._metabolites = {}
+            rxn.objective_coefficient = 0.
 
         # set objective
         if conv_opt_model.objective_direction in [ObjectiveDirection.max, ObjectiveDirection.maximize]:
-            solver_model.objective.set_sense(solver_model.objective.sense.maximize)
+            objective_sense = 'maximize'
         elif conv_opt_model.objective_direction in [ObjectiveDirection.min, ObjectiveDirection.minimize]:
-            solver_model.objective.set_sense(solver_model.objective.sense.minimize)
+            objective_sense = 'minimize'
         else:
             raise ConvOptError('Unsupported objective direction "{}"'.format(conv_opt_model.objective_direction))
 
         for term in conv_opt_model.objective_terms:
             if isinstance(term, LinearTerm):
-                i = conv_opt_model.variables.index(term.variable)
-                solver_model.objective.set_linear(i, solver_model.objective.get_linear(i) + term.coefficient)
-            elif isinstance(term, QuadraticTerm):
-                i_1 = conv_opt_model.variables.index(term.variable_1)
-                i_2 = conv_opt_model.variables.index(term.variable_2)
-                if i_1 == i_2:
-                    coefficient = 2. * term.coefficient
-                else:
-                    coefficient = 1. * term.coefficient
-                solver_model.objective.set_quadratic_coefficients(
-                    i_1, i_2, solver_model.objective.get_quadratic_coefficients(i_1, i_2) + coefficient)
+                i_variable = conv_opt_model.variables.index(term.variable)
+                cobra_model.reactions[i_variable].objective_coefficient += term.coefficient
             else:
                 raise ConvOptError('Unsupported objective term of type "{}"'.format(term.__class__.__name__))
 
         # set constraints
-        names = []
-        lin_expr = []
-        senses = []
-        rhs = []
-        range_values = []
-        for constraint in conv_opt_model.constraints:
+        cobra_model.metabolites = MetabolitesList()
+        range_metabolites = []
+        for i_constraint, constraint in enumerate(conv_opt_model.constraints):
+            met = mock.Mock()
+            met2 = mock.Mock()
+
+            met.id = constraint.name or ('constraint_' + str(i_constraint))
+            met2.id = constraint.name + ' _lower_bound_of_range'
+
+            range_constraint = False
             if constraint.lower_bound is None and constraint.upper_bound is None:
                 raise ConvOptError('Constraints must have at least one bound')
             if constraint.lower_bound is None:
-                senses.append('L')
-                rhs.append(constraint.upper_bound)
-                range_values.append(0.)
+                met._constraint_sense = 'L'
+                met._bound = min(constraint.upper_bound, self.INF)
             elif constraint.upper_bound is None:
-                senses.append('G')
-                rhs.append(constraint.lower_bound)
-                range_values.append(0.)
+                met._constraint_sense = 'G'
+                met._bound = max(constraint.lower_bound, -self.INF)
             elif constraint.lower_bound == constraint.upper_bound:
-                senses.append('E')
-                rhs.append(constraint.lower_bound)
-                range_values.append(0.)
+                met._constraint_sense = 'E'
+                met._bound = max(constraint.lower_bound, -self.INF)
             else:
-                senses.append('R')
-                rhs.append(constraint.lower_bound)
-                range_values.append(constraint.upper_bound - constraint.lower_bound)
+                range_constraint = True
 
-            names.append(constraint.name)
+                met._constraint_sense = 'L'
+                met._bound = min(constraint.upper_bound, self.INF)
 
-            ind = []
-            val = []
+                met2._constraint_sense = 'G'
+                met2._bound = max(constraint.lower_bound, -self.INF)
+
             for term in constraint.terms:
                 if isinstance(term, LinearTerm):
-                    ind.append(conv_opt_model.variables.index(term.variable))
-                    val.append(term.coefficient)
-                # elif isinstance(term, QuadraticTerm):
-                    # :todo: implement quadratic constraints
-                    # raise ConvOptError('Unsupported constraint term of type "{}"'.format(term.__class__.__name__))
+                    i_reaction = conv_opt_model.variables.index(term.variable)
+                    if met in cobra_model.reactions[i_reaction]._metabolites:
+                        cobra_model.reactions[i_reaction]._metabolites[met] += term.coefficient
+                        if range_constraint:
+                            cobra_model.reactions[i_reaction]._metabolites[met2] += term.coefficient
+                    else:
+                        cobra_model.reactions[i_reaction]._metabolites[met] = term.coefficient
+                        if range_constraint:
+                            cobra_model.reactions[i_reaction]._metabolites[met2] = term.coefficient
                 else:
                     raise ConvOptError('Unsupported constraint term of type "{}"'.format(term.__class__.__name__))
-            lin_expr.append(cplex.SparsePair(ind=ind, val=val))
 
-        solver_model.linear_constraints.add(names=names, lin_expr=lin_expr, senses=senses, rhs=rhs, range_values=range_values)
+            cobra_model.metabolites.append(met)
+            if range_constraint:
+                range_metabolites.append(met2)
 
-        # set model type, :todo: support other problem types
-        problem_type = conv_opt_model.get_type()
-        if problem_type == ModelType.lp:
-            solver_model.set_problem_type(solver_model.problem_type.LP)
-        elif problem_type == ModelType.qp:
-            solver_model.set_problem_type(solver_model.problem_type.QP)
-        elif problem_type == ModelType.milp:
-            solver_model.set_problem_type(solver_model.problem_type.MILP)
-        elif problem_type == ModelType.miqp:
-            solver_model.set_problem_type(solver_model.problem_type.MIQP)
-        # else: # condition not needed because of the above error checking
-        #    raise ConvOptError('Unsupported model type "{}"'.format(problem_type))
+        cobra_model.metabolites += range_metabolites
 
-        return solver_model
+        # convert model to SoPlex problem
+        soplex_model = soplex.Soplex(cobra_model)
+        soplex_model.set_objective_sense(objective_sense)
+
+        self._cobra_model = cobra_model
+        self._num_variables = len(conv_opt_model.variables)
+        self._num_constraints = len(conv_opt_model.constraints)
+
+        return soplex_model
 
     def solve(self):
         """ Solve the model
@@ -172,86 +164,43 @@ class SoplexModel(SolverModel):
 
         model = self._model
 
+        # set solver options
+        options = copy.copy(self.DEFAULT_OPTIONS)
+        for key, val in self._options.solver_options.get('soplex', {}).items():
+            options[key] = val
+
         # set verbosity
-        if self._options.verbosity.value < Verbosity.status.value:
-            model.set_results_stream(None)
-        else:
-            model.set_results_stream(sys.stdout)
-
-        if self._options.verbosity.value < Verbosity.warning.value:
-            model.set_warning_stream(None)
-        else:
-            model.set_results_stream(sys.stdout)
-
-        if self._options.verbosity.value < Verbosity.error.value:
-            model.set_error_stream(None)
-        else:
-            model.set_results_stream(sys.stdout)
+        options['VERBOSITY'] = self._options.verbosity.value
 
         # set presolve mode
         if self._options.presolve == Presolve.on:
-            model.parameters.preprocessing.presolve.set(model.parameters.preprocessing.presolve.values.on)
-        elif self._options.presolve == Presolve.off:
-            model.parameters.preprocessing.presolve.set(model.parameters.preprocessing.presolve.values.off)
-        else:
             raise ConvOptError('Unsupported presolve mode "{}"'.format(self._options.presolve))
 
         # tune
         if self._options.tune:
-            model.parameters.tune_problem()
+            raise ConvOptError('Unsupported tune mode "{}"'.format(self._options.tune))
 
-        # set solver options
-        self.set_solver_options()
-
-        model.solve()
-        sol = model.solution
-
-        tmp = sol.get_status()
-        if tmp in [1, 101]:
+        # solve problem
+        status_message = model.solve_problem(**options)
+        if status_message == 'optimal':
             status_code = StatusCode.optimal
-        elif tmp in [3, 103]:
-            status_code = StatusCode.infeasible
+            sol = model.format_solution(self._cobra_model)
+            value = model.get_objective_value()
+            primals = numpy.array(sol.x)
+            reduced_costs = numpy.full((model.numCols,), numpy.nan)
+            duals = numpy.array(sol.y[0:self._num_constraints])
         else:
             status_code = StatusCode.other
-
-        status_message = sol.get_status_string()
-
-        if status_code == StatusCode.optimal:
-            value = sol.get_objective_value()
-            primals = numpy.array(sol.get_values())
-            if model.get_problem_type() in [model.problem_type.LP, model.problem_type.QP]:
-                reduced_costs = numpy.array(sol.get_reduced_costs())
-                duals = numpy.array(sol.get_dual_values())
-            else:
-                reduced_costs = numpy.full((model.variables.get_num(),), numpy.nan)
-                duals = numpy.full((model.linear_constraints.get_num() + model.quadratic_constraints.get_num(),), numpy.nan)
-        else:
             value = numpy.nan
-            primals = numpy.full((model.variables.get_num(),), numpy.nan)
-            reduced_costs = numpy.full((model.variables.get_num(),), numpy.nan)
-            duals = numpy.full((model.linear_constraints.get_num() + model.quadratic_constraints.get_num(),), numpy.nan)
+            primals = numpy.full((model.numCols,), numpy.nan)
+            reduced_costs = numpy.full((model.numCols,), numpy.nan)
+            duals = numpy.full((self._num_constraints,), numpy.nan)
 
         return Result(status_code, status_message, value, primals, reduced_costs, duals)
 
     def set_solver_options(self):
         """ Set solver options """
-        self.set_parameters()
-
-    def set_parameters(self, parameters=None, values=None):
-        """ Set SoPlex parameters 
-
-        Args:
-            parameters (:obj:`object`, optional): parameters object
-            values (:obj:`dict`, optional): parameter values
-        """
-        parameters = parameters or self._model.parameters
-        values = values or self._options.solver_options.get('soplex', {}).get('parameters', {})
-
-        for key, val in values.items():
-            if isinstance(val, dict):
-                self.set_parameters(parameters=getattr(parameters, key), values=val)
-            else:
-                getattr(parameters, key).set(val)
+        pass  # pragma: no cover
 
     def get_stats(self):
         """ Get diagnostic information about the model
@@ -259,5 +208,25 @@ class SoplexModel(SolverModel):
         Returns:
             :obj:`str`: diagnostic information about the model
         """
-        model = self._model
-        return model.get_stats()
+        pass
+
+
+class MetabolitesList(list):
+    """ List of metabolites of a COBRA model """
+
+    def index(self, id):
+        """ Get the index of the metabolite with identifier :obj:`id`
+
+        Args:
+            id (:obj:`str`): identifier
+
+        Returns:
+            :obj:`int`: index of metabolite with identifier :obj:`id` in list
+
+        Raises:
+            :obj:`ValueError`: if no metabolite with identifier :obj:`id` is in list
+        """
+        for i_metabolite, metabolite in enumerate(self):
+            if metabolite.id == id:
+                return i_metabolite
+        raise ValueError("'{}' is not in list".format(id))
