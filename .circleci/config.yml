@@ -28,9 +28,6 @@ jobs:
       - run:
           name: Install package (Python 3)
           command: pip3 install -U --process-dependency-links -e .[all]
-      - run:
-          name: Upgrade requirements (Python 3)
-          command: karr_lab_build_utils3 upgrade-requirements
 
       # Save packages to cache
       - save_cache:
