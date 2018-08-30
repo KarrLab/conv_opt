@@ -5,9 +5,6 @@ jobs:
     docker:
       - image: karrlab/wc_env_dependencies:latest
     steps:
-      # make XPRESS license check exit quickly
-      - run: sed -i 's/^use_server server=".\?\+"$/use_server server=""/g' /opt/xpressmp/bin/xpauth.xpr
-      
       # Clone repository
       - checkout
 
