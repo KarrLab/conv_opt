@@ -16,7 +16,10 @@ from ..core import (ModelType, ObjectiveDirection,
                     Constraint, LinearTerm, Model, Term, Variable, Result, ConvOptError,
                     SolverModel)
 import attrdict
-import capturer
+try:
+    import capturer
+except ModuleNotFoundError:  # pragma: no cover
+    capturer = None  # pragma: no cover
 import copy
 try:
     from qminospy import qwarmLP
@@ -256,7 +259,7 @@ class MinosModel(SolverModel):
         model.inform = numpy.array(0)
 
         # solve model
-        if self._options.verbosity == Verbosity.status.off:
+        if capturer and self._options.verbosity == Verbosity.status.off:
             capture_output = capturer.CaptureOutput(merged=False, relay=False)
             capture_output.start_capture()
 
@@ -269,7 +272,7 @@ class MinosModel(SolverModel):
             int_opt_vals, float_opt_vals,
             nstropts=num_str_opts, nintopts=num_int_opts, nrealopts=num_float_opts)
 
-        if self._options.verbosity == Verbosity.status.off:
+        if capturer and self._options.verbosity == Verbosity.status.off:
             capture_output.finish_capture()
 
         tmp = model.inform

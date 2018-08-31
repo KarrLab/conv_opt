@@ -11,7 +11,10 @@ from ..core import (ModelType, ObjectiveDirection, Presolve,
                     SolveOptions, Solver, StatusCode, VariableType, Verbosity,
                     Constraint, LinearTerm, Model, QuadraticTerm, Term, Variable, Result, ConvOptError,
                     SolverModel)
-import capturer
+try:
+    import capturer
+except ModuleNotFoundError:  # pragma: no cover
+    capturer = None  # pragma: no cover
 import numpy
 import sys
 try:
@@ -142,15 +145,18 @@ class XpressModel(SolverModel):
 
         # presolve
         if self._options.presolve == Presolve.on:
-            if self._options.verbosity == Verbosity.off:
-                with capturer.CaptureOutput(merged=False, relay=False) as captured:
-                    model.presolve()
-            elif self._options.verbosity == Verbosity.error:
-                with capturer.CaptureOutput(merged=False, relay=False) as captured:
-                    model.presolve()
-                    err = captured.stderr.get_text()
-                    if err:
-                        sys.stderr.write(err)
+            if capturer and self._options.verbosity.value <= Verbosity.error.value:
+                capture_output = capturer.CaptureOutput(merged=False, relay=False)
+                capture_output.start_capture()
+
+            model.presolve()
+
+            if capturer and self._options.verbosity.value <= Verbosity.error.value:
+                capture_output.finish_capture()
+
+                err = capture_output.stderr.get_text()
+                if err and self._options.verbosity == Verbosity.error:
+                    sys.stderr.write(err)
             else:
                 model.presolve()
         elif self._options.presolve != Presolve.off:

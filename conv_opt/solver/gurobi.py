@@ -11,7 +11,7 @@ from ..core import (ModelType, ObjectiveDirection, Presolve,
                     SolveOptions, Solver, StatusCode, VariableType, Verbosity,
                     Constraint, LinearTerm, Model, QuadraticTerm, Term, Variable, Result, ConvOptError,
                     SolverModel)
-import capturer
+import abduct
 try:
     import gurobipy
 except ImportError:  # pragma: no cover
@@ -37,7 +37,7 @@ class GurobiModel(SolverModel):
                 an objective has an unsupported term, a constraint has
                 an unsupported term, or a constraint is unbounded
         """
-        with capturer.CaptureOutput(relay=False):
+        with abduct.captured(abduct.out(tee=False)):
             solver_model = gurobipy.Model(conv_opt_model.name or '')
 
         # variables
@@ -148,7 +148,7 @@ class GurobiModel(SolverModel):
             if self._options.verbosity.value >= Verbosity.status.value:
                 model.tune()
             else:
-                with capturer.CaptureOutput(relay=False):
+                with abduct.captured(abduct.out(tee=False)):
                     model.tune()
 
         # set presolve
@@ -218,9 +218,9 @@ class GurobiModel(SolverModel):
         """
         model = self._model
 
-        with capturer.CaptureOutput(merged=False, relay=False) as captured:
+        with abduct.captured(abduct.out(tee=False)) as stdout:
             model.printStats()
-            stats = captured.stdout.get_text()
+            stats = stdout.getvalue()
 
         return {
             'stats': stats,

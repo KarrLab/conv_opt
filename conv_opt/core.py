@@ -9,6 +9,10 @@ multiple open-source and commercials solvers.
 
 import abc
 import attrdict
+try:
+    import capturer
+except ModuleNotFoundError:  # pragma: no cover
+    capturer = None  # pragma: no cover
 import enum
 import numpy
 import os
@@ -129,9 +133,14 @@ except ImportError:  # pragma: no cover
 try:
     import gurobipy
     try:
-        import capturer
-        with capturer.CaptureOutput(merged=False, relay=False):
-            gurobipy.Model()
+        if capturer:
+            capture_output = capturer.CaptureOutput(merged=False, relay=False)
+            capture_output.start_capture()
+
+        gurobipy.Model()
+
+        if capturer:
+            capture_output.finish_capture()
         ENABLED_SOLVERS.append(Solver.gurobi)
     except gurobipy.GurobiError:  # pragma: no cover
         pass  # pragma: no cover
