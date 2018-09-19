@@ -284,7 +284,7 @@ class MinosModel(SolverModel):
             status_message = 'other'
 
         if status_code == StatusCode.optimal:
-            value = (numpy.matrix(model['_objective']) * numpy.matrix(x[0:model['_num_variables']]).transpose())[0, 0]
+            value = numpy.dot(numpy.array(model['_objective']), numpy.array(x[0:model['_num_variables']]))
             primals = numpy.array(x[0:model['_num_variables']])
             reduced_costs = numpy.array(reduced_costs)
             duals = numpy.array(duals[0:model['_num_constraints']])
@@ -348,8 +348,8 @@ def makeME_LP(S, b, c, xl, xu, csense):
     # Make primal and slack bounds
     bigbnd = 1e+40
     # For csense==E rows (equality)
-    sl = np.matrix([bi for bi in b2]).transpose()
-    su = np.matrix([bi for bi in b2]).transpose()
+    sl = np.array([bi for bi in b2], ndmin=2).transpose()
+    su = np.array([bi for bi in b2], ndmin=2).transpose()
     for row, csen in enumerate(csense):
         if csen == 'L':
             sl[row] = -bigbnd

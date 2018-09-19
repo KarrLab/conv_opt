@@ -91,8 +91,7 @@ class CylpModel(SolverModel):
             expr = None
             for term in constraint.terms:
                 if isinstance(term, LinearTerm):
-                    term_expr = numpy.matrix([term.coefficient]) * \
-                        solver_model.variables[conv_opt_model.variables.index(term.variable)]
+                    term_expr = term.coefficient * solver_model.variables[conv_opt_model.variables.index(term.variable)]
                     if expr is None:
                         expr = term_expr
                     else:
