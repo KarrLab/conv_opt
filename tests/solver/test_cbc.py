@@ -164,7 +164,7 @@ class CbcTestCase(SolverTestCase):
         with capturer.CaptureOutput(merged=False, relay=False, termination_delay=1.) as captured:
             model.solve(options=options)
 
-            self.assertRegexpMatches(captured.stdout.get_text(), ' 0  Obj -0 Primal ')
+            self.assertRegex(captured.stdout.get_text(), ' 0  Obj -0 Primal ')
             self.assertEqual(captured.stderr.get_text(), '')
 
         options = conv_opt.SolveOptions(solver=conv_opt.Solver.cbc,

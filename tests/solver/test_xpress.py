@@ -205,7 +205,7 @@ class XpressTestCase(SolverTestCase):
         with capturer.CaptureOutput(merged=False, relay=False) as captured:
             model.solve(options=options)
 
-            self.assertRegexpMatches(captured.stdout.get_text(), '^Problem is nonlinear presolved')
+            self.assertRegex(captured.stdout.get_text(), '^Problem is nonlinear presolved')
             self.assertEqual(captured.stderr.get_text(), '')
 
         options = conv_opt.SolveOptions(solver=conv_opt.Solver.xpress,
@@ -214,7 +214,7 @@ class XpressTestCase(SolverTestCase):
         with capturer.CaptureOutput(merged=False, relay=False) as captured:
             model.solve(options=options)
 
-            self.assertRegexpMatches(captured.stdout.get_text(), 'Maximizing LP ')
+            self.assertRegex(captured.stdout.get_text(), 'Maximizing LP ')
             self.assertEqual(captured.stderr.get_text(), '')
 
         options = conv_opt.SolveOptions(solver=conv_opt.Solver.xpress,
@@ -240,7 +240,7 @@ class XpressTestCase(SolverTestCase):
         with capturer.CaptureOutput(merged=False, relay=False) as captured:
             model.solve(options=options)
 
-            self.assertRegexpMatches(captured.stdout.get_text(), '^Maximizing LP ')
+            self.assertRegex(captured.stdout.get_text(), '^Maximizing LP ')
             self.assertEqual(captured.stderr.get_text(), '')
 
         options = conv_opt.SolveOptions(solver=conv_opt.Solver.xpress,

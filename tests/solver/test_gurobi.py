@@ -179,7 +179,7 @@ class GurobiTestCase(SolverTestCase):
         with capturer.CaptureOutput(merged=False, relay=False) as captured:
             model.solve(options=options)
 
-            self.assertRegexpMatches(captured.stdout.get_text(), '^Parameter LogToConsole unchanged')
+            self.assertRegex(captured.stdout.get_text(), '^Parameter LogToConsole unchanged')
             self.assertEqual(captured.stderr.get_text(), '')
 
         options = conv_opt.SolveOptions(solver=conv_opt.Solver.gurobi,

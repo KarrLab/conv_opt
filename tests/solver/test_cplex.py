@@ -191,7 +191,7 @@ class TestCplex(SolverTestCase):
         with capturer.CaptureOutput(merged=False, relay=False) as captured:
             model.solve(options=options)
 
-            self.assertRegexpMatches(captured.stdout.get_text(), '^CPXPARAM_Preprocessing_Presolve')
+            self.assertRegex(captured.stdout.get_text(), '^CPXPARAM_Preprocessing_Presolve')
             self.assertEqual(captured.stderr.get_text(), '')
 
         options = conv_opt.SolveOptions(solver=conv_opt.Solver.cplex,
