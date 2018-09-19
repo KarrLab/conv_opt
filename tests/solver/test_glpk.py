@@ -77,7 +77,7 @@ class GlpkTestCase(SolverTestCase):
 
         var = conv_opt.Variable(name='binary_var', type=None)
         model.variables.append(var)
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported variable of type'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported variable of type'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.glpk))
 
     def test_unsupported_objective_direction(self):
@@ -85,7 +85,7 @@ class GlpkTestCase(SolverTestCase):
         var = conv_opt.Variable(name='var')
         model.variables.append(var)
         model.objective_direction = None
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported objective direction'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported objective direction'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.glpk))
 
     def test_unsupported_objective_term(self):
@@ -93,7 +93,7 @@ class GlpkTestCase(SolverTestCase):
         var = conv_opt.Variable(name='var')
         model.variables.append(var)
         model.objective_terms = [None]
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported objective term of type'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported objective term of type'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.glpk))
 
     def test_unsupported_quadratic_objective(self):
@@ -101,7 +101,7 @@ class GlpkTestCase(SolverTestCase):
         var = conv_opt.Variable(name='var')
         model.variables.append(var)
         model.objective_terms = [conv_opt.QuadraticTerm(variable_1=var, variable_2=var, coefficient=1.)]
-        with self.assertRaisesRegexp(ValueError, '^GLPK only supports linear objectives.'):
+        with self.assertRaisesRegex(ValueError, '^GLPK only supports linear objectives.'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.glpk))
 
     def test_unconstrained_constraint(self):
@@ -130,7 +130,7 @@ class GlpkTestCase(SolverTestCase):
         model.constraints.append(conv_opt.Constraint([
             None,
         ], upper_bound=0, lower_bound=0))
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported constraint term of type '):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported constraint term of type '):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.glpk))
 
     def test_verbose(self):
@@ -171,7 +171,7 @@ class GlpkTestCase(SolverTestCase):
         model = conv_opt.Model()
         var = conv_opt.Variable(name='var')
         model.variables.append(var)
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported presolve mode '):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported presolve mode '):
             model.solve(options=conv_opt.SolveOptions(solver=conv_opt.Solver.glpk, presolve=None))
 
     def test_tune(self):

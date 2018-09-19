@@ -30,7 +30,7 @@ class SoplexTestCase(SolverTestCase):
 
         var = conv_opt.Variable(name='binary_var', type=None)
         model.variables.append(var)
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported variable of type'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported variable of type'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.soplex))
 
     def test_unsupported_objective_direction(self):
@@ -38,7 +38,7 @@ class SoplexTestCase(SolverTestCase):
         var = conv_opt.Variable()
         model.variables.append(var)
         model.objective_direction = None
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported objective direction'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported objective direction'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.soplex))
 
     def test_unsupported_objective_term(self):
@@ -46,7 +46,7 @@ class SoplexTestCase(SolverTestCase):
         var = conv_opt.Variable()
         model.variables.append(var)
         model.objective_terms = [None]
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported objective term of type'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported objective term of type'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.soplex))
 
     def test_unsupported_constraint_type(self):
@@ -56,7 +56,7 @@ class SoplexTestCase(SolverTestCase):
         model.constraints.append(conv_opt.Constraint([
             None,
         ], upper_bound=0, lower_bound=0))
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported constraint term of type '):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported constraint term of type '):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.soplex))
 
     def test_unconstrainted_constraint(self):
@@ -66,7 +66,7 @@ class SoplexTestCase(SolverTestCase):
         model.constraints.append(conv_opt.Constraint([
             conv_opt.LinearTerm(variable=var, coefficient=1.)
         ], upper_bound=None, lower_bound=None))
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Constraints must have at least one bound'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Constraints must have at least one bound'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.soplex))
 
     def test_unsupported_presolve_mode(self):
@@ -77,7 +77,7 @@ class SoplexTestCase(SolverTestCase):
             conv_opt.LinearTerm(variable=var, coefficient=1.)
         ], upper_bound=1, lower_bound=-1))
         solver_model = model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.soplex, presolve=conv_opt.Presolve.on))
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported presolve mode '):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported presolve mode '):
             result = solver_model.solve()
 
     def test_unsupported_tune_mode(self):
@@ -88,7 +88,7 @@ class SoplexTestCase(SolverTestCase):
             conv_opt.LinearTerm(variable=var, coefficient=1.)
         ], upper_bound=1, lower_bound=-1))
         solver_model = model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.soplex, tune=True))
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported tune mode '):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported tune mode '):
             result = solver_model.solve()
 
     def test_verbose(self):
@@ -203,5 +203,5 @@ class MetabolitesListTestCase(unittest.TestCase):
         self.assertEqual(mets.index('met_1'), 2)
         self.assertEqual(mets.index('met_2'), 0)
 
-        with self.assertRaisesRegexp(ValueError, 'not in list'):
+        with self.assertRaisesRegex(ValueError, 'not in list'):
             mets.index('met_3')

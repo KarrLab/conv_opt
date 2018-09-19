@@ -104,7 +104,7 @@ class CvxoptTestCase(SolverTestCase):
             conv_opt.LinearTerm(variable=var_2, coefficient=1.),
         ]
 
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, 'Variables must have unique names'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, 'Variables must have unique names'):
             solver_model = model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.cvxopt))
 
     def test_supported_variable_types(self):
@@ -129,7 +129,7 @@ class CvxoptTestCase(SolverTestCase):
         model.variables.append(var)
         model.objective_direction = conv_opt.ObjectiveDirection.maximize
         model.objective_terms = [conv_opt.LinearTerm(variable=var, coefficient=1.)]
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported variable of type'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported variable of type'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.cvxopt))
 
         model = conv_opt.Model()
@@ -137,7 +137,7 @@ class CvxoptTestCase(SolverTestCase):
         model.variables.append(var)
         model.objective_direction = conv_opt.ObjectiveDirection.maximize
         model.objective_terms = [conv_opt.LinearTerm(variable=var, coefficient=1.)]
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported variable of type'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported variable of type'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.cvxopt))
 
         model = conv_opt.Model()
@@ -145,7 +145,7 @@ class CvxoptTestCase(SolverTestCase):
         model.variables.append(var)
         model.objective_direction = conv_opt.ObjectiveDirection.maximize
         model.objective_terms = [conv_opt.LinearTerm(variable=var, coefficient=1.)]
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported variable of type'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported variable of type'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.cvxopt))
 
     def test_fixed_variable(self):
@@ -182,7 +182,7 @@ class CvxoptTestCase(SolverTestCase):
         var = conv_opt.Variable()
         model.variables.append(var)
         model.objective_direction = None
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported objective direction'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported objective direction'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.cvxopt))
 
     def test_unsupported_objective_term(self):
@@ -190,7 +190,7 @@ class CvxoptTestCase(SolverTestCase):
         var = conv_opt.Variable()
         model.variables.append(var)
         model.objective_terms = [None]
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported objective term of type'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported objective term of type'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.cvxopt))
 
     def test_quadratic_objective_with_multiple_terms(self):
@@ -223,7 +223,7 @@ class CvxoptTestCase(SolverTestCase):
 
         model.constraints.append(conv_opt.Constraint())
 
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, 'Constraints must have at least one bound'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, 'Constraints must have at least one bound'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.cvxopt))
 
     def test_unsupported_constraint(self):
@@ -238,7 +238,7 @@ class CvxoptTestCase(SolverTestCase):
         model.constraints.append(conv_opt.Constraint([
             None,
         ], upper_bound=0, lower_bound=0))
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported constraint term of type '):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported constraint term of type '):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.cvxopt))
 
     def test_verbose(self):
@@ -275,7 +275,7 @@ class CvxoptTestCase(SolverTestCase):
         model.objective_direction = conv_opt.ObjectiveDirection.maximize
         model.objective_terms = [conv_opt.LinearTerm(variable=var, coefficient=-1.)]
 
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported presolve mode '):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported presolve mode '):
             model.solve(options=conv_opt.SolveOptions(solver=conv_opt.Solver.cvxopt, presolve=None))
 
     def test_tune(self):
@@ -287,7 +287,7 @@ class CvxoptTestCase(SolverTestCase):
         model.objective_direction = conv_opt.ObjectiveDirection.maximize
         model.objective_terms = [conv_opt.LinearTerm(variable=var, coefficient=1.)]
 
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported tuning mode '):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported tuning mode '):
             model.solve(options=conv_opt.SolveOptions(solver=conv_opt.Solver.cvxopt, tune=True))
 
     def test_infeasible(self):
@@ -358,5 +358,5 @@ class CvxoptTestCase(SolverTestCase):
             conv_opt.LinearTerm(variable=var_2, coefficient=1.),
         ]
 
-        with self.assertRaisesRegexp(cvxpy.SolverError, ''):
+        with self.assertRaisesRegex(cvxpy.SolverError, ''):
             model.solve(options=conv_opt.SolveOptions(solver=conv_opt.Solver.cvxopt))

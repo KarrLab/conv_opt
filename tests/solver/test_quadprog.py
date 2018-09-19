@@ -47,7 +47,7 @@ class QuadprogTestCase(SolverTestCase):
 
         var = conv_opt.Variable(name='binary_var', type=conv_opt.VariableType.integer)
         model.variables.append(var)
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported variable of type'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported variable of type'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.quadprog))
 
     def test_unsupported_objective_direction(self):
@@ -55,7 +55,7 @@ class QuadprogTestCase(SolverTestCase):
         var = conv_opt.Variable()
         model.variables.append(var)
         model.objective_direction = None
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported objective direction'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported objective direction'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.quadprog))
 
     def test_unsupported_objective_term(self):
@@ -63,7 +63,7 @@ class QuadprogTestCase(SolverTestCase):
         var = conv_opt.Variable()
         model.variables.append(var)
         model.objective_terms = [None]
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported objective term of type'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported objective term of type'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.quadprog))
 
     def test_variable_bounds(self):
@@ -99,7 +99,7 @@ class QuadprogTestCase(SolverTestCase):
         var = conv_opt.Variable()
         model.variables.append(var)
         model.constraints.append(conv_opt.Constraint())
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, 'Constraints must have at least one bound'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, 'Constraints must have at least one bound'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.quadprog))
 
     def test_multiple_types_of_constraints(self):
@@ -135,14 +135,14 @@ class QuadprogTestCase(SolverTestCase):
         model.constraints.append(conv_opt.Constraint([
             None,
         ], upper_bound=0, lower_bound=0))
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported constraint term of type '):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported constraint term of type '):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.quadprog))
 
     def test_unsupported_presolve(self):
         model = conv_opt.Model()
         var = conv_opt.Variable()
         model.variables.append(var)
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported presolve mode '):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported presolve mode '):
             model.solve(options=conv_opt.SolveOptions(solver=conv_opt.Solver.quadprog, presolve=None))
 
     def test_tune(self):
@@ -151,7 +151,7 @@ class QuadprogTestCase(SolverTestCase):
         model.variables.append(var)
         model.objective_direction = conv_opt.ObjectiveDirection.maximize
         model.objective_terms = [conv_opt.LinearTerm(variable=var, coefficient=1.)]
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported tuning mode '):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported tuning mode '):
             result = model.solve(options=conv_opt.SolveOptions(solver=conv_opt.Solver.quadprog, tune=True))
 
     def test_infeasible_qp(self):

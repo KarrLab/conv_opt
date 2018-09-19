@@ -28,7 +28,7 @@ class ScipyLinprogTestCase(SolverTestCase):
         model.variables.append(var)
 
         with mock.patch.object(conv_opt.Model, 'get_type', return_value=None):
-            with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported model type '):
+            with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported model type '):
                 model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.scipy))
 
     def test_unsupported_variable_types(self):
@@ -38,7 +38,7 @@ class ScipyLinprogTestCase(SolverTestCase):
         model.variables.append(var)
 
         with mock.patch.object(conv_opt.Model, 'get_type', return_value=conv_opt.ModelType.lp):
-            with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported variable of type'):
+            with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported variable of type'):
                 model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.scipy))
 
     def test_unsupported_objective_direction(self):
@@ -46,7 +46,7 @@ class ScipyLinprogTestCase(SolverTestCase):
         var = conv_opt.Variable()
         model.variables.append(var)
         model.objective_direction = None
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported objective direction'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported objective direction'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.scipy))
 
     def test_unsupported_objective_term(self):
@@ -55,7 +55,7 @@ class ScipyLinprogTestCase(SolverTestCase):
         model.variables.append(var)
         model.objective_terms = [None]
         with mock.patch.object(conv_opt.Model, 'get_type', return_value=conv_opt.ModelType.lp):
-            with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported objective term of type'):
+            with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported objective term of type'):
                 model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.scipy))
 
     def test_unconstrained_constraint(self):
@@ -63,7 +63,7 @@ class ScipyLinprogTestCase(SolverTestCase):
         var = conv_opt.Variable()
         model.variables.append(var)
         model.constraints.append(conv_opt.Constraint())
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, 'Constraints must have at least one bound'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, 'Constraints must have at least one bound'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.scipy))
 
     def test_unsupported_constraint(self):
@@ -73,14 +73,14 @@ class ScipyLinprogTestCase(SolverTestCase):
         model.constraints.append(conv_opt.Constraint([
             None,
         ], upper_bound=0, lower_bound=0))
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported constraint term of type '):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported constraint term of type '):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.scipy))
 
     def test_unsupported_presolve(self):
         model = conv_opt.Model()
         var = conv_opt.Variable(name='var')
         model.variables.append(var)
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported presolve mode '):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported presolve mode '):
             model.solve(options=conv_opt.SolveOptions(solver=conv_opt.Solver.scipy, presolve=None))
 
     def test_tune(self):
@@ -92,7 +92,7 @@ class ScipyLinprogTestCase(SolverTestCase):
         model.objective_direction = conv_opt.ObjectiveDirection.maximize
         model.objective_terms = [conv_opt.LinearTerm(variable=var, coefficient=1.)]
 
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported tuning mode '):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported tuning mode '):
             model.solve(options=conv_opt.SolveOptions(solver=conv_opt.Solver.scipy, tune=True))
 
     def test_infeasible(self):
@@ -184,7 +184,7 @@ class ScipyMinimizeTestCase(SolverTestCase):
         model.objective_terms = [conv_opt.QuadraticTerm(variable_1=var, variable_2=var, coefficient=1.)]
 
         with mock.patch.object(conv_opt.Model, 'get_type', return_value=conv_opt.ModelType.qp):
-            with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported variable of type'):
+            with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported variable of type'):
                 model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.scipy))
 
     def test_unsupported_objective_direction(self):
@@ -196,7 +196,7 @@ class ScipyMinimizeTestCase(SolverTestCase):
         model.objective_direction = None
         model.objective_terms = [conv_opt.QuadraticTerm(variable_1=var, variable_2=var, coefficient=1.)]
 
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported objective direction'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported objective direction'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.scipy))
 
     def test_unsupported_objective_term(self):
@@ -208,7 +208,7 @@ class ScipyMinimizeTestCase(SolverTestCase):
         model.objective_terms = [None, conv_opt.QuadraticTerm(variable_1=var, variable_2=var, coefficient=1.)]
 
         with mock.patch.object(conv_opt.Model, 'get_type', return_value=conv_opt.ModelType.qp):
-            with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported objective term of type'):
+            with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported objective term of type'):
                 model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.scipy))
 
     def test_unconstrained_constraint(self):
@@ -221,7 +221,7 @@ class ScipyMinimizeTestCase(SolverTestCase):
 
         model.constraints.append(conv_opt.Constraint())
 
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, 'Constraints must have at least one bound'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, 'Constraints must have at least one bound'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.scipy))
 
     def test_unsupported_constraint(self):
@@ -236,7 +236,7 @@ class ScipyMinimizeTestCase(SolverTestCase):
             None,
         ], upper_bound=0, lower_bound=0))
 
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported constraint term of type '):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported constraint term of type '):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.scipy))
 
     def test_infeasible_qp_2_cobyla(self):
@@ -278,6 +278,6 @@ class ScipyMinimizeTestCase(SolverTestCase):
     def test_unsupported_method(self):
         model = self.create_qp()
         with mock.patch('scipy.optimize.minimize', return_value=None):
-            with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported solver method '):
+            with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported solver method '):
                 self.assert_qp(model, 'scipy', presolve=conv_opt.Presolve.off,
                                solver_options=attrdict.AttrDict(method='__none__'))

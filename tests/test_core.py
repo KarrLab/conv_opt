@@ -396,18 +396,18 @@ class CoreTestCase(SolverTestCase):
     def test_get_type_unsupported_variable(self):
         model = self.create_lp()
         model.variables[0].type = None
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported variable of type '):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported variable of type '):
             model.get_type()
 
     def test_get_type_unsupported_objective_term(self):
         model = self.create_lp()
         model.objective_terms[0] = None
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported objective term of type '):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported objective term of type '):
             model.get_type()
 
     def test_unsupported_solver(self):
         model = self.create_lp()
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported solver '):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported solver '):
             model.convert(conv_opt.SolveOptions(solver=None))
 
     def test__unpack_result(self):
@@ -448,7 +448,7 @@ class CoreTestCase(SolverTestCase):
         self.assert_export('lp')
 
         # unsupported format
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported format '):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported format '):
             self.assert_export('__xxx__')
 
     def test_conv_opt_error(self):

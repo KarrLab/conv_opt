@@ -103,7 +103,7 @@ class CbcTestCase(SolverTestCase):
 
         var = conv_opt.Variable(name='binary_var', type=None)
         model.variables.append(var)
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported variable of type'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported variable of type'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.cbc))
 
     def test_unsupported_objective_direction(self):
@@ -111,7 +111,7 @@ class CbcTestCase(SolverTestCase):
         var = conv_opt.Variable(name='var')
         model.variables.append(var)
         model.objective_direction = None
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported objective direction'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported objective direction'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.cbc))
 
     def test_unsupported_objective_term(self):
@@ -119,7 +119,7 @@ class CbcTestCase(SolverTestCase):
         var = conv_opt.Variable(name='var')
         model.variables.append(var)
         model.objective_terms = [None]
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported objective term of type'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported objective term of type'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.cbc))
 
     def test_miqp_model(self):
@@ -133,7 +133,7 @@ class CbcTestCase(SolverTestCase):
         model.objective_terms = [conv_opt.QuadraticTerm(variable_1=integer_var, variable_2=integer_var, coefficient=1.)]
 
         # check problem type
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported objective term of type '):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported objective term of type '):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.cbc))
 
     def test_unconstrained_constraint(self):
@@ -141,7 +141,7 @@ class CbcTestCase(SolverTestCase):
         var = conv_opt.Variable(name='var')
         model.variables.append(var)
         model.constraints.append(conv_opt.Constraint())
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, 'Constraints must have at least one bound'):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, 'Constraints must have at least one bound'):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.cbc))
 
     def test_unsupported_constraint(self):
@@ -151,7 +151,7 @@ class CbcTestCase(SolverTestCase):
         model.constraints.append(conv_opt.Constraint([
             None,
         ], upper_bound=0, lower_bound=0))
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported constraint term of type '):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported constraint term of type '):
             model.convert(options=conv_opt.SolveOptions(solver=conv_opt.Solver.cbc))
 
     @unittest.skip('Sometimes fails in Docker due a bug with `capturer`')
@@ -191,7 +191,7 @@ class CbcTestCase(SolverTestCase):
         model = conv_opt.Model()
         var = conv_opt.Variable(name='var')
         model.variables.append(var)
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported presolve mode '):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported presolve mode '):
             model.solve(options=conv_opt.SolveOptions(solver=conv_opt.Solver.cbc, presolve=None))
 
     def test_tune(self):
@@ -203,7 +203,7 @@ class CbcTestCase(SolverTestCase):
         model.objective_direction = conv_opt.ObjectiveDirection.maximize
         model.objective_terms = [conv_opt.LinearTerm(variable=var, coefficient=1.)]
 
-        with self.assertRaisesRegexp(conv_opt.ConvOptError, '^Unsupported tuning mode '):
+        with self.assertRaisesRegex(conv_opt.ConvOptError, '^Unsupported tuning mode '):
             model.solve(options=conv_opt.SolveOptions(solver=conv_opt.Solver.cbc, tune=True))
 
     def test_infeasible(self):
