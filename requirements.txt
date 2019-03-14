@@ -1,7 +1,7 @@
 abduct
 attrdict
+cylp
 cython
-enum34
 mock
 numpy
 optlang
