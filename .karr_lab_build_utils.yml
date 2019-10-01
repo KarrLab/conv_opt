@@ -1,4 +1,5 @@
 downstream_dependencies:
   - h1_hesc
+  - wc_model_gen
 email_notifications:
   - jonrkarr@gmail.com
