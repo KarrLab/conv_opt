@@ -133,14 +133,14 @@ except ImportError:  # pragma: no cover
 try:
     import gurobipy
     try:
-        if capturer:
-            capture_output = capturer.CaptureOutput(merged=False, relay=False)
-            capture_output.start_capture()
+        # if capturer:
+        #     capture_output = capturer.CaptureOutput(merged=False, relay=False)
+        #     capture_output.start_capture()
 
         gurobipy.Model()
 
-        if capturer:
-            capture_output.finish_capture()
+        # if capturer:
+        #     capture_output.finish_capture()
         ENABLED_SOLVERS.append(Solver.gurobi)
     except gurobipy.GurobiError:  # pragma: no cover
         pass  # pragma: no cover
