@@ -26,15 +26,24 @@ class GurobiTestCase(SolverTestCase):
         self.assertEqual(gurobi_model.getAttr('ModelName'), 'test-lp')
 
         vars = gurobi_model.getVars()
-        self.assertEqual([var.VarName for var in vars], ['ex_a', 'r1', 'r2', 'r3', 'r4', 'biomass_production', 'ex_biomass'])
-        self.assertEqual([var.LB for var in vars], [-gurobipy.GRB.INFINITY, 0., 0., 0., 0., 0., 0.])
-        self.assertEqual([var.UB for var in vars],
-                         [1., gurobipy.GRB.INFINITY, gurobipy.GRB.INFINITY, gurobipy.GRB.INFINITY,
-                          gurobipy.GRB.INFINITY, gurobipy.GRB.INFINITY, gurobipy.GRB.INFINITY])
+        self.assertEqual(
+            [var.VarName for var in vars], 
+            ['ex_a', 'r1', 'r2', 'r3', 'r4', 'biomass_production', 'ex_biomass'])
+        self.assertEqual(
+            [max(-gurobipy.GRB.INFINITY, var.LB) for var in vars], 
+            [-gurobipy.GRB.INFINITY, 0., 0., 0., 0., 0., 0.])
+        self.assertEqual(
+            [min(gurobipy.GRB.INFINITY, var.UB) for var in vars],
+            [1., gurobipy.GRB.INFINITY, gurobipy.GRB.INFINITY, gurobipy.GRB.INFINITY,
+             gurobipy.GRB.INFINITY, gurobipy.GRB.INFINITY, gurobipy.GRB.INFINITY])
         self.assertEqual(set([var.VType for var in vars]), set([gurobipy.GRB.CONTINUOUS]))
 
         self.assertEqual(gurobi_model.ModelSense, gurobipy.GRB.MAXIMIZE)
-        self.assertEqual(gurobi_model.getObjective(), gurobipy.LinExpr(1., vars[-2]))
+        obj = gurobi_model.getObjective()
+        self.assertIsInstance(obj, gurobipy.LinExpr)
+        self.assertEqual(obj.size(), 1)
+        self.assertEqual(obj.getCoeff(0), 1)
+        self.assertIs(obj.getVar(0), vars[-2])
 
         constraints = gurobi_model.getConstrs()
         self.assertEqual([c.ConstrName for c in constraints],

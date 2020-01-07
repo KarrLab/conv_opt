@@ -59,12 +59,12 @@ class GurobiModel(SolverModel):
             if variable.lower_bound is None:
                 lb = -gurobipy.GRB.INFINITY
             else:
-                lb = variable.lower_bound
+                lb = max(-gurobipy.GRB.INFINITY, variable.lower_bound)
 
             if variable.upper_bound is None:
                 ub = gurobipy.GRB.INFINITY
             else:
-                ub = variable.upper_bound
+                ub = min(gurobipy.GRB.INFINITY, variable.upper_bound)
 
             var = solver_model.addVar(lb=lb, ub=ub, vtype=type, name=variable.name or '')
             solver_variables.append(var)
