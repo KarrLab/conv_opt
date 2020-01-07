@@ -9,7 +9,7 @@ cplex
 
 [cvxopt]
 cvxopt
-cvxpy >= 1.0.3
+cvxpy >= 1.0.25
 
 [cylp]
 cylp
