@@ -1,6 +1,5 @@
 abduct
 attrdict
-cylp
 cython
 mock
 numpy

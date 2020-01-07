@@ -11,6 +11,9 @@ cplex
 cvxopt
 cvxpy >= 1.0.3
 
+[cylp]
+cylp
+
 [gurobi]
 gurobipy
 
