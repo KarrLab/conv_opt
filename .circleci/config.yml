@@ -38,7 +38,7 @@ jobs:
             fi
       - run:
           name: Install package (Python 3)
-          command: python3 -m pip install -U -e .[all]
+          command: python3 -m pip install -U -e ".[capture_output, cplex, cvxopt, minos, mosek, soplex]"
 
       # Save packages to cache
       - save_cache:
