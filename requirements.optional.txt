@@ -1,3 +1,4 @@
+
 [capture_output]
 capturer
 
@@ -9,7 +10,7 @@ cplex
 
 [cvxopt]
 cvxopt
-cvxpy >= 1.0.25
+cvxpy >= 1.0.21
 
 [cylp]
 cylp
