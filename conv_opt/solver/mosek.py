@@ -178,24 +178,24 @@ class MosekModel(SolverModel):
                 has_int = True
 
         if has_int:
-            if model.getsolsta(mosek.soltype.itg) in [mosek.solsta.integer_optimal, mosek.solsta.near_integer_optimal]:
+            if model.getsolsta(mosek.soltype.itg) == mosek.solsta.integer_optimal:
                 status_code = StatusCode.optimal
             # I don't think this is reachable because Mosek seems to reurn solsta 'unknown'
-            # elif model.getsolsta(mosek.soltype.itg) in [mosek.solsta.prim_infeas_cer, mosek.solsta.near_prim_infeas_cer]:
+            # elif model.getsolsta(mosek.soltype.itg) == mosek.solsta.prim_infeas_cer:
             #    status_code = StatusCode.infeasible
             else:
                 status_code = StatusCode.other
         elif is_quadratic:
-            if model.getsolsta(mosek.soltype.itr) in [mosek.solsta.optimal, mosek.solsta.near_optimal]:
+            if model.getsolsta(mosek.soltype.itr) == mosek.solsta.optimal:
                 status_code = StatusCode.optimal
-            elif model.getsolsta(mosek.soltype.itr) in [mosek.solsta.prim_infeas_cer, mosek.solsta.near_prim_infeas_cer]:
+            elif model.getsolsta(mosek.soltype.itr) == mosek.solsta.prim_infeas_cer:
                 status_code = StatusCode.infeasible
             else:
                 status_code = StatusCode.other
         else:
-            if model.getsolsta(mosek.soltype.bas) in [mosek.solsta.optimal, mosek.solsta.near_optimal]:
+            if model.getsolsta(mosek.soltype.bas) == mosek.solsta.optimal:
                 status_code = StatusCode.optimal
-            elif model.getsolsta(mosek.soltype.bas) in [mosek.solsta.prim_infeas_cer, mosek.solsta.near_prim_infeas_cer]:
+            elif model.getsolsta(mosek.soltype.bas) == mosek.solsta.prim_infeas_cer:
                 status_code = StatusCode.infeasible
             else:
                 status_code = StatusCode.other

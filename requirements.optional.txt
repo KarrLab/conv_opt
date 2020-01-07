@@ -21,7 +21,7 @@ gurobipy
 qminospy
 
 [mosek]
-mosek
+mosek >= 9.1
 
 [soplex]
 soplex

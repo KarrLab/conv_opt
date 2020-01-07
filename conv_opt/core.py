@@ -537,7 +537,7 @@ class Model(object):
             from .solver import gurobi
             model = gurobi.GurobiModel(self).get_model()
             model.write(filename)
-        elif Solver.mosek in preferred_solvers and format in ['cbf', 'jtask', 'lp', 'mps', 'opf', 'task', 'xml']:
+        elif Solver.mosek in preferred_solvers and format in ['cbf', 'jtask', 'mps', 'opf', 'task', 'xml']:
             from .solver import mosek
             with mosek.MosekModel(self).get_model() as task:
                 task.writedata(filename)
