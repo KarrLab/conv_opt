@@ -1,9 +1,6 @@
 # description
 README.rst
 
-# version
-include conv_opt/VERSION
-
 # license
 include LICENSE
 
