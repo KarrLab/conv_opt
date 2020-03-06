@@ -6,7 +6,6 @@
 :License: MIT
 """
 
-from __future__ import absolute_import
 from .optlang import OptlangModel
 from ..core import QuadraticTerm, ConvOptError
 import optlang.glpk_interface

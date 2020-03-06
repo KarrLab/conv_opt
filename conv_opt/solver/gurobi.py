@@ -6,7 +6,6 @@
 :License: MIT
 """
 
-from __future__ import absolute_import
 from ..core import (ModelType, ObjectiveDirection, Presolve,
                     SolveOptions, Solver, StatusCode, VariableType, Verbosity,
                     Constraint, LinearTerm, Model, QuadraticTerm, Term, Variable, Result, ConvOptError,

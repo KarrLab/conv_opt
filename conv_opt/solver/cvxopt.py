@@ -6,7 +6,6 @@
 :License: MIT
 """
 
-from __future__ import absolute_import
 from .cvxpy import CvxpyModel
 from ..core import VariableType, ConvOptError
 import cvxpy

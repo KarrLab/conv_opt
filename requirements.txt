@@ -7,6 +7,5 @@ optlang
 quadprog
 setuptools
 scipy
-six
 swiglpk
 sympy

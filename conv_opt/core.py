@@ -16,7 +16,6 @@ except ModuleNotFoundError:  # pragma: no cover
 import enum
 import numpy
 import os
-import six
 
 
 class VariableType(enum.Enum):
@@ -557,7 +556,7 @@ class Model(object):
             raise ConvOptError('Unsupported format "{}"'.format(format))
 
 
-class SolverModel(six.with_metaclass(abc.ABCMeta, object)):
+class SolverModel(object, metaclass=abc.ABCMeta):
     """ A solver
 
     Attributes:
