@@ -1,11 +1,11 @@
 abduct
 attrdict
+configobj
 cython
 mock
 numpy
 optlang
 quadprog
-setuptools
 scipy
 swiglpk
 sympy
