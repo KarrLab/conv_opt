@@ -25,7 +25,7 @@ multiple open-source and commercials solvers including [Cbc](https://projects.co
 
     * Install the latest release from PyPI:
       ```
-      conv_opt
+      pip install conv_opt
       ```
 
     * Install the latest revision from GitHub:
