@@ -24,7 +24,7 @@ class OptlangModel(SolverModel):
     INTERFACE = None
 
     def load(self, conv_opt_model):
-        """ Load a model to GPLK's data structure
+        """ Load a model to GLPK's data structure
 
         Args:
             conv_opt_model (:obj:`Model`): model
